@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://employee-rights-sahayak.github.io/sitemap.xml

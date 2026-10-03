@@ -12,7 +12,7 @@
     "for": { "hi": "दुकानें, दफ़्तर और ज़्यादातर काम — पूरी दिल्ली में एक दर", "en": "Shops, offices and most work — one rate for all of Delhi" },
     "note": { "hi": "अक्टूबर 2025 और अप्रैल 2026 में नई दर नहीं आई, इसलिए अप्रैल 2025 की दर लागू है। 1 अक्टूबर 2026 से नई दर आ सकती है।", "en": "No new rate came in October 2025 or April 2026, so the April 2025 rate applies. A new rate may come from 1 October 2026." },
     "rows": [ { "zone": null, "unskilled": 18456, "semi": 20371, "skilled": 22411, "high": null } ],
-    "sources": [ { "label": "ClearTax — Latest Minimum Wages in Delhi 2026", "url": "https://cleartax.in/s/minimum-wages-in-delhi" } ],
+    "sources": [ { "label": "HR Engage — Minimum Wages in Delhi (NCT) 2026", "url": "https://hrengage.ai/compliance/minimum-wages/delhi" } ],
     "official": "https://labour.delhi.gov.in/"
   },
   "up": {
