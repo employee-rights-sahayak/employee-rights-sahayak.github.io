@@ -1,0 +1,42 @@
+{
+  "_about": "State minimum wages per month (basic + VDA / special allowance), added 3 Oct 2026. Figures as published from the state orders by the sources listed; check the official site before relying on them. Update every April / October (Maharashtra: January / July).",
+  "mp": {
+    "from": "2026-10-01", "till": "2027-03-31",
+    "for": { "hi": "सभी 67 अनुसूचित रोज़गार, पूरे राज्य में एक दर", "en": "All 67 scheduled employments, one rate for the whole state" },
+    "rows": [ { "zone": null, "unskilled": 10950, "semi": 11807, "skilled": 13185, "high": 14485 } ],
+    "sources": [ { "label": "SGCMS — Minimum Rate of Wages, Madhya Pradesh (October 2026)", "url": "https://www.sgcms.com/regulatory-updates/minimum-rate-of-wages-madhya-pradesh-october-2026/" } ],
+    "official": "https://labour.mp.gov.in/"
+  },
+  "delhi": {
+    "from": "2025-04-01", "till": null,
+    "for": { "hi": "दुकानें, दफ़्तर और ज़्यादातर काम — पूरी दिल्ली में एक दर", "en": "Shops, offices and most work — one rate for all of Delhi" },
+    "note": { "hi": "अक्टूबर 2025 और अप्रैल 2026 में नई दर नहीं आई, इसलिए अप्रैल 2025 की दर लागू है। 1 अक्टूबर 2026 से नई दर आ सकती है।", "en": "No new rate came in October 2025 or April 2026, so the April 2025 rate applies. A new rate may come from 1 October 2026." },
+    "rows": [ { "zone": null, "unskilled": 18456, "semi": 20371, "skilled": 22411, "high": null } ],
+    "sources": [ { "label": "ClearTax — Latest Minimum Wages in Delhi 2026", "url": "https://cleartax.in/s/minimum-wages-in-delhi" } ],
+    "official": "https://labour.delhi.gov.in/"
+  },
+  "up": {
+    "from": "2026-04-01", "till": "2026-09-30",
+    "for": { "hi": "74 अनुसूचित रोज़गार (आदेश 374/36-2-2026-2041256, 17 अप्रैल 2026)", "en": "74 scheduled employments (order 374/36-2-2026-2041256, 17 April 2026)" },
+    "note": { "hi": "यह दर 30 सितंबर 2026 तक की है; 1 अक्टूबर 2026 का नया आदेश आते ही बदलेगी (आमतौर पर थोड़ी बढ़ती है)।", "en": "This rate is till 30 September 2026; it changes when the 1 October 2026 order comes (usually a little higher)." },
+    "rows": [
+      { "zone": { "hi": "नोएडा (गौतम बुद्ध नगर) और गाज़ियाबाद", "en": "Noida (Gautam Buddha Nagar) and Ghaziabad" }, "unskilled": 13690, "semi": 15059, "skilled": 16868, "high": null },
+      { "zone": { "hi": "नगर निगम वाले शहर", "en": "Municipal corporation cities" }, "unskilled": 13006, "semi": 14306, "skilled": 16025, "high": null },
+      { "zone": { "hi": "बाक़ी ज़िले", "en": "Other districts" }, "unskilled": 12356, "semi": 13590, "skilled": 15224, "high": null }
+    ],
+    "sources": [ { "label": "SGCMS — Minimum Rate of Wages, Uttar Pradesh (April 2026)", "url": "https://www.sgcms.com/regulatory-updates/minimum-rate-of-wages-uttar-pradesh-april-2026/" } ],
+    "official": "https://uplabour.gov.in/Pages/MWA.aspx"
+  },
+  "maharashtra": {
+    "from": "2026-07-01", "till": "2026-12-31",
+    "for": { "hi": "दुकानें और व्यापारिक प्रतिष्ठान (फ़ैक्ट्री / इंजीनियरिंग की दर अलग हो सकती है)", "en": "Shops and commercial establishments (factory / engineering rates can differ)" },
+    "note": { "hi": "आपका ज़ोन (I / II / III) शहर के हिसाब से तय होता है — पक्का न हो तो लेबर ऑफ़िस से पूछें।", "en": "Your zone (I / II / III) depends on the town — ask the Labour Office if unsure." },
+    "rows": [
+      { "zone": { "hi": "ज़ोन I", "en": "Zone I" }, "unskilled": 14155, "semi": 14990, "skilled": 15766, "high": null },
+      { "zone": { "hi": "ज़ोन II", "en": "Zone II" }, "unskilled": 13559, "semi": 14394, "skilled": 15170, "high": null },
+      { "zone": { "hi": "ज़ोन III", "en": "Zone III" }, "unskilled": 12962, "semi": 13798, "skilled": 14574, "high": null }
+    ],
+    "sources": [ { "label": "SGCMS — Minimum Rate of Wages, Maharashtra (August 2026)", "url": "https://www.sgcms.com/regulatory-updates/minimum-rate-of-wages-maharashtra-august-2026/" } ],
+    "official": "https://mahakamgar.maharashtra.gov.in/"
+  }
+}

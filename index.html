@@ -211,6 +211,13 @@
   .offices a { display:block; padding:.6rem .75rem; margin-top:.45rem; border:1px solid var(--line); border-radius:12px; text-decoration:none; color:var(--navy-2); font-weight:700; background:#fbfcfe; }
   .bigcase { border-top:5px solid #f59e0b; }
   .rq { margin:1.1rem 0 .5rem; font-size:1.08rem; }
+  .wagecard { border-top:5px solid var(--accent); }
+  .wtable { width:100%; border-collapse:collapse; font-size:.95rem; margin-top:.4rem; }
+  .wtable th, .wtable td { border-bottom:1px solid var(--line); padding:.45rem .35rem; text-align:left; }
+  .wtable td.r, .wtable th.r { text-align:right; white-space:nowrap; }
+  .wres { margin-top:.7rem; padding:.75rem .9rem; border-radius:12px; font-weight:700; }
+  .wres.low { background:#fff1f1; border-left:5px solid #dc2626; } .wres.ok { background:#ecfdf3; border-left:5px solid var(--accent); }
+  .wagecard .src { font-size:.78rem; color:var(--muted); margin-top:.5rem; overflow-wrap:anywhere; } .wagecard .src a { color:var(--muted); }
   .chips { display:flex; flex-wrap:wrap; gap:.5rem; }
   .chip { border:1.5px solid var(--line); background:#fff; border-radius:999px; padding:.55rem .95rem; font-weight:700; font-size:.98rem;
           cursor:pointer; color:var(--text); min-height:46px; box-shadow:0 1px 2px rgba(16,24,40,.05); }
@@ -375,6 +382,7 @@
     <div class="summary" id="summary"></div>
     <div id="guide"></div>
     <div id="helplineBox"></div>
+    <div id="wageBox"></div>
     <div class="row2">
       <button class="big" type="button" data-go="lawyer" data-t="lawyerBtn"></button>
       <button class="big" type="button" data-act="reportFromAnswer" data-t="reportBtnNav"></button>
@@ -465,6 +473,7 @@
     <datalist id="helpDistrictList"></datalist>
     <div id="helpDistrictBox"></div>
     <div id="helpBox"></div>
+    <div id="helpWageBox"></div>
     <button class="big" type="button" data-act="draftClaim" data-dt="makeBtn"></button>
     <div class="card">
       <h2 data-t="whereTitle"></h2>

@@ -200,6 +200,31 @@
     n2t:"Next step: free government lawyer", n2:"Call <b>15100</b> — a government lawyer takes the case to the Labour Court / High Court for free. For bonded labour or violence, also complain to the NHRC.",
     n2call:"📞 Call 15100 free", n2nhrc:"🛡️ Complain to NHRC ↗",
   });
+  // state minimum wages + "am I paid less?" check (3 Oct 2026; data in public/wages.json with source + dates)
+  Object.assign(T.hi, {
+    wTitle:"💰 आपके राज्य की न्यूनतम मज़दूरी (महीना)", wFrom:"लागू: ", wTill:" से ", wTill2:" तक", wNow:" से (अब तक)",
+    sk:["अकुशल (Unskilled)","अर्ध-कुशल (Semi-skilled)","कुशल (Skilled)","अति-कुशल (Highly skilled)"],
+    skHint:"आमतौर पर: हेल्पर, बेलदार, लोडर, गार्ड = अकुशल · मशीन ऑपरेटर, फ़ैक्ट्री वर्कर, पेंटर = अर्ध-कुशल · इलेक्ट्रीशियन, फ़िटर, वेल्डर, CNC, मिस्त्री, प्लंबर = कुशल। आपके काम के हिसाब से बदल सकता है।",
+    wCheck:"🧮 क्या आपको कम पैसा मिल रहा है?", wZone:"आपका इलाक़ा", wSkill:"आपका काम किस श्रेणी में है?", wPayPh:"आपको हर महीने कितना मिलता है? (₹)",
+    wLow:(min, pay, gap) => `⚠️ आपको ₹${pay} मिलता है, जबकि क़ानून के हिसाब से कम से कम ₹${min} मिलना चाहिए — हर महीने ₹${gap} कम! यह क़ानून के ख़िलाफ़ है, और बकाया पैसा 3 साल तक माँग सकते हैं।`,
+    wOk:(min, pay) => `✅ ₹${pay} — यह न्यूनतम मज़दूरी (₹${min}) से कम नहीं है।`,
+    wComplain:"🕵️ इसकी शिकायत की चिट्ठी बनाएँ", wDay:"दिन का (÷26): ",
+    wSrc:"स्रोत: ", wOff:"सरकारी वेबसाइट पर पक्का करें ↗", wNone:"इस राज्य की न्यूनतम मज़दूरी जल्द जोड़ी जाएगी। तब तक अपने ज़िले के लेबर ऑफ़िस से पूछें।",
+    wMsg:(sk, pay, min) => `मुझे हर महीने ₹${pay} मिलते हैं, जबकि ${sk} की न्यूनतम मज़दूरी ₹${min} महीना है।`,
+  });
+  Object.assign(T.en, {
+    wTitle:"💰 Minimum wage in your state (per month)", wFrom:"In force: ", wTill:" to ", wTill2:"", wNow:" onwards (still in force)",
+    sk:["Unskilled","Semi-skilled","Skilled","Highly skilled"],
+    skHint:"Usually: helper, labourer, loader, guard = unskilled · machine operator, factory worker, painter = semi-skilled · electrician, fitter, welder, CNC, mason, plumber = skilled. It can differ by your actual work.",
+    wCheck:"🧮 Are you paid less?", wZone:"Your area", wSkill:"Which category is your work?", wPayPh:"How much do you get per month? (₹)",
+    wLow:(min, pay, gap) => `⚠️ You get ₹${pay}, but the law says at least ₹${min} — ₹${gap} less every month! This is against the law, and unpaid money can be claimed for up to 3 years.`,
+    wOk:(min, pay) => `✅ ₹${pay} — this is not below the minimum wage (₹${min}).`,
+    wComplain:"🕵️ Make a complaint letter about this", wDay:"Per day (÷26): ",
+    wSrc:"Source: ", wOff:"Check on the official website ↗", wNone:"This state's minimum wage will be added soon. Until then, ask your district Labour Office.",
+    wMsg:(sk, pay, min) => `I get ₹${pay} a month, but the minimum wage for ${sk} work is ₹${min} a month.`,
+  });
+  // usual skill level for each WORK tile (index -> 0 unskilled, 1 semi, 2 skilled); "Other" -> none
+  const WORK_SKILL = [2, 0, 2, 2, 2, 2, 0, 0, 0, 2, 1, 2, 1, 2, 2, 1, 0, -1];
   T.hi.staticOff ="⏳ यह सुविधा जल्द आ रही है। अभी शिकायत के लिए समाधान पोर्टल (samadhan.labour.gov.in) या अपने ज़िले का लेबर ऑफ़िस इस्तेमाल करें।";
   T.en.staticOff = "⏳ This feature is coming soon. For now, use the SAMADHAN portal (samadhan.labour.gov.in) or your district Labour Office.";
   let LANG = 'hi';
@@ -371,7 +396,7 @@
     return `<div class="card"><h2>${t('officesTitle')}</h2><div class="updated" style="margin-top:0">${t('officesHint')}</div>
       <div class="offices">${s.offices.map(o => `<a href="${esc(o.url)}" target="_blank" rel="noopener">📍 ${esc(LANG === 'en' ? o.en : o.hi)} ↗</a>`).join('')}</div></div>`;
   }
-  function showHelp(id) { const s = STATES.find(x => x.id === id); document.getElementById('helpBox').innerHTML = id ? callBtn(realHelpline(s)) + officesCard(s) : ''; }
+  function showHelp(id) { const s = STATES.find(x => x.id === id); document.getElementById('helpBox').innerHTML = id ? callBtn(realHelpline(s)) + officesCard(s) : ''; wageCard('helpWageBox', id); }
   document.getElementById('stateSelect').addEventListener('change', e => setState(e.target.value));
   document.getElementById('helpState').addEventListener('change', e => { setState(e.target.value); showHelp(e.target.value); });
 
@@ -406,6 +431,7 @@
     document.getElementById('summary').innerHTML = [st.work >= 0 ? workName() : '', problemName(), stateName(s)].filter(Boolean)
       .map(x => `<span class="tag">${esc(x)}</span>`).join('');
     document.getElementById('helplineBox').innerHTML = callBtn(st.helpline) + officesCard(s);
+    wageCard('wageBox', st.stateId);
     document.body.dataset.bg = { safety:'safety', injury:'safety', overtime:'clock', hours:'clock', leave:'clock' }[st.problemId] || '';
     const box = document.getElementById('guide'); box.textContent = t('loading');
     let g;
@@ -489,6 +515,54 @@
     else composeMessage();
     renderReportChips();
   }
+  // ---- minimum wage card + check (answer page and help page)
+  let WAGES = null;
+  const wk = { zone: 0, skill: -1, pay: '' };
+  const rs = n => n == null ? '—' : '₹' + Number(n).toLocaleString('en-IN');
+  const wDate = d => new Date(d + 'T00:00:00').toLocaleDateString(LANG === 'en' ? 'en-IN' : 'hi-IN', { day:'numeric', month:'short', year:'numeric' });
+  async function wageCard(boxId, stateId) {
+    const box = document.getElementById(boxId);
+    if (!stateId) { box.innerHTML = ''; return; }
+    try { WAGES = WAGES || await getJSON(STATIC ? 'wages.json' : '/wages.json'); } catch (e) { WAGES = {}; }
+    const w = WAGES[stateId];
+    if (!w) { box.innerHTML = `<div class="card wagecard"><h2>${t('wTitle')}</h2><div class="note" style="margin-top:0">${t('wNone')}</div></div>`; return; }
+    if (wk.skill < 0 && st.work >= 0 && WORK_SKILL[st.work] >= 0) wk.skill = WORK_SKILL[st.work];
+    if (wk.zone >= w.rows.length) wk.zone = 0;
+    const keys = ['unskilled', 'semi', 'skilled', 'high'], cols = keys.filter(k => w.rows.some(r => r[k] != null));
+    const zname = r => r.zone ? (LANG === 'en' ? r.zone.en : r.zone.hi) : '';
+    const period = t('wFrom') + wDate(w.from) + (w.till ? t('wTill') + wDate(w.till) + t('wTill2') : t('wNow'));
+    box.innerHTML = `<div class="card wagecard"><h2>${t('wTitle')}</h2>
+      <div class="updated" style="margin-top:0">${esc(LANG === 'en' ? w.for.en : w.for.hi)} · ${period}</div>
+      <table class="wtable"><tr>${w.rows.length > 1 ? `<th>${t('wZone')}</th>` : ''}${cols.map(k => `<th class="r">${esc(t('sk')[keys.indexOf(k)].split(' (')[0])}</th>`).join('')}</tr>
+        ${w.rows.map(r => `<tr>${w.rows.length > 1 ? `<td>${esc(zname(r))}</td>` : ''}${cols.map(k => `<td class="r">${rs(r[k])}</td>`).join('')}</tr>`).join('')}</table>
+      ${w.note ? `<div class="note">${esc(LANG === 'en' ? w.note.en : w.note.hi)}</div>` : ''}
+      <h2 style="margin-top:1rem">${t('wCheck')}</h2>
+      ${w.rows.length > 1 ? `<label class="dl"><span>${t('wZone')}</span><select data-w="zone">${w.rows.map((r, k) => `<option value="${k}" ${k === wk.zone ? 'selected' : ''}>${esc(zname(r))}</option>`).join('')}</select></label>` : ''}
+      <div class="dl"><span>${t('wSkill')}</span></div>
+      <div class="chips">${cols.map(k => { const i = keys.indexOf(k); return `<button class="chip${i === wk.skill ? ' on' : ''}" type="button" data-wsk="${i}">${esc(t('sk')[i])}</button>`; }).join('')}</div>
+      <div class="updated">${t('skHint')}</div>
+      <input type="text" inputmode="numeric" data-w="pay" placeholder="${esc(t('wPayPh'))}" value="${esc(wk.pay)}" style="margin-top:.6rem" />
+      <div class="wresbox"></div>
+      <div class="src">${t('wSrc')}${w.sources.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join(', ')} ·
+        <a href="${esc(w.official)}" target="_blank" rel="noopener">${t('wOff')}</a></div></div>`;
+    const card = box.firstElementChild;
+    const result = () => {
+      const r = w.rows[wk.zone], min = wk.skill >= 0 ? r[keys[wk.skill]] : null, pay = parseInt(String(wk.pay).replace(/[^0-9]/g, ''), 10);
+      const out = card.querySelector('.wresbox');
+      if (!min || !(pay > 0)) { out.innerHTML = min ? `<div class="updated">${t('wDay')}${rs(Math.round(min / 26))}</div>` : ''; return; }
+      if (pay < min) {
+        out.innerHTML = `<div class="wres low">${T[LANG].wLow(min.toLocaleString('en-IN'), pay.toLocaleString('en-IN'), (min - pay).toLocaleString('en-IN'))}</div>
+          <button class="big" type="button" data-act="wageComplain">${t('wComplain')}</button>`;
+        wk.msg = T[LANG].wMsg(t('sk')[wk.skill].split(' (')[0], pay.toLocaleString('en-IN'), min.toLocaleString('en-IN'));
+      } else out.innerHTML = `<div class="wres ok">${T[LANG].wOk(min.toLocaleString('en-IN'), pay.toLocaleString('en-IN'))}</div>`;
+    };
+    card.querySelectorAll('[data-wsk]').forEach(b => b.addEventListener('click', () => {
+      wk.skill = +b.dataset.wsk; card.querySelectorAll('[data-wsk]').forEach(x => x.classList.toggle('on', x === b)); result();
+    }));
+    const z = card.querySelector('[data-w="zone"]'); if (z) z.addEventListener('change', () => { wk.zone = +z.value; result(); });
+    card.querySelector('[data-w="pay"]').addEventListener('input', e => { wk.pay = e.target.value; result(); });
+    result();
+  }
   // ---- tap-first complaint: chips write the message; state + district remembered; one next step at a time
   const rp = { problem:-1, since:-1, people:-1, before:-1, auto:'' };
   function chipRow(id, labels, sel, onPick) {
@@ -506,7 +580,7 @@
     const m = document.getElementById('reportMessage');
     if (m.value.trim() && m.value !== rp.auto) return;          // the worker wrote their own words - keep them
     const parts = [];
-    if (st.work >= 0) parts.push(t('iAm') + workName() + t('iAmEnd').trim());
+    if (st.work >= 0) parts.push((t('iAm') + workName() + t('iAmEnd')).trim());
     if (rp.problem >= 0) parts.push(t('msgProblem') + PROBLEMS[rp.problem][L()] + (LANG === 'en' ? '.' : '।'));
     if (rp.since >= 0) parts.push(t('msgSince').replace('{x}', t('since')[rp.since].toLowerCase()));
     if (rp.people > 0) parts.push(t('msgPeople')[rp.people]);
@@ -648,6 +722,11 @@
     speakGuide: () => speak(GUIDE_TEXT),
     copyLetter: () => copyLetter(),
     pilLetter: () => pilLetter(),
+    wageComplain: () => {
+      const k = PROBLEMS.findIndex(x => x[3] === 'minwage'); st.problem = k; st.problemId = 'minwage'; rp.problem = k;
+      const m = document.getElementById('reportMessage'); m.value = ''; composeMessage(); m.value = (m.value + ' ' + (wk.msg || '')).trim(); rp.auto = '';   // now counts as the worker's own text
+      prefillReport(); go('report');
+    },
     helpMap: () => { go('help'); const d = document.getElementById('reportDistrict').value.trim(); if (d) { document.getElementById('helpDistrict').value = d; showHelpDistrict(); } },
     copyPil: () => copyLetter('pilText'),
     printPil: () => window.print(),
