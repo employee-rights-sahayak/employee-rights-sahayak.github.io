@@ -219,6 +219,10 @@
   .bigcase { border-top:5px solid #f59e0b; }
   .rq { margin:1.1rem 0 .5rem; font-size:1.08rem; }
   .wagecard { border-top:5px solid var(--accent); }
+  .unioncard { border-top:5px solid var(--primary); }
+  .unioncard .nosite { padding:.6rem .75rem; margin-top:.45rem; border:1px dashed var(--line); border-radius:12px; color:#33415c; }
+  .unioncard .nosite small { color:var(--muted); }
+  .unioncard .src { font-size:.8rem; margin-top:.6rem; } .unioncard .src a { color:var(--muted); }
   .wtable { width:100%; border-collapse:collapse; font-size:.95rem; margin-top:.4rem; }
   .wtable th, .wtable td { border-bottom:1px solid var(--line); padding:.45rem .35rem; text-align:left; }
   .wtable td.r, .wtable th.r { text-align:right; white-space:nowrap; }
@@ -483,6 +487,7 @@
     <div id="helpDistrictBox"></div>
     <div id="helpBox"></div>
     <div id="helpWageBox"></div>
+    <div id="unionBox"></div>
     <button class="big" type="button" data-act="draftClaim" data-dt="makeBtn"></button>
     <div class="card">
       <h2 data-t="whereTitle"></h2>

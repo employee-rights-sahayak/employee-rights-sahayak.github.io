@@ -240,6 +240,45 @@
     coBtn:"🔎 Search the company on EPFO ↗", coMine:"🏦 See my own PF passbook (with UAN) ↗",
     coNote:"A company's own policies (leave, overtime, bonus) are not published officially — they are in your appointment letter / standing orders. You have the right to ask for a copy.",
   });
+  // unions (3 Oct 2026, user: "jis company mein union nahi, wahan ke mazdoor union se madad le sakein"). Law from the
+  // official IR Code PDF (s.6 p.10, s.84 + Second Schedule p.53); union list = PIB 7 Nov 2017 (Central Trade Union
+  // Organisations met the Labour Minister); a website is shown only where we checked it is the union's own site.
+  const IR_PDF = 'https://www.labour.gov.in/static/uploads/2025/07/682a44b5426bff2c1f4943ee1b2fd566.pdf';
+  const UNIONS = [   // A-Z by short name, no ranking
+    ['AICCTU', 'All India Central Council of Trade Unions', 'https://www.aicctu.org/'],
+    ['AITUC', 'All India Trade Union Congress', ''],
+    ['AIUTUC', 'All India United Trade Union Centre', ''],
+    ['BMS', 'Bharatiya Mazdoor Sangh', 'https://www.bms.org.in/'],
+    ['CITU', 'Centre of Indian Trade Unions', 'https://www.citucentre.org/'],
+    ['HMS', 'Hind Mazdoor Sabha', 'https://www.hindmazdoorsabha.co.in/'],
+    ['INTUC', 'Indian National Trade Union Congress', 'https://www.intuc.net/'],
+    ['LPF', 'Labour Progressive Federation', ''],
+    ['NFITU', 'National Front of Indian Trade Unions', ''],
+    ['TUCC', 'Trade Union Co-ordination Centre', 'https://tuccindia.org/'],
+    ['UTUC', 'United Trade Union Congress', ''],
+  ];
+  Object.assign(T.hi, {
+    uTitle:"🤝 यूनियन से मदद — अकेले न लड़ें",
+    uSub:"सरकारी दफ़्तर से जल्दी मदद न मिले, या कंपनी में यूनियन न हो, तो बड़ी (केंद्रीय) ट्रेड यूनियनों की ज़िला / राज्य शाखाओं से मदद ले सकते हैं — वे अक्सर लेबर ऑफ़िस में साथ जाने, कंपनी से बात करने और केस में मदद करती हैं।",
+    uLaw:["<b>यूनियन बनाना और उससे जुड़ना आपका हक़ है।</b> यूनियन से जुड़ने पर नौकरी से निकालने की धमकी देना, या दूसरों को यूनियन से जुड़ने के लिए कहने पर सज़ा देना <b>अनुचित श्रम व्यवहार</b> है, जो मना है (औद्योगिक संबंध संहिता 2020, धारा 84 और दूसरी अनुसूची)।",
+          "<b>अपनी यूनियन बनानी हो:</b> कम से कम 7 सदस्य रजिस्ट्रेशन की अर्ज़ी दे सकते हैं, पर रजिस्ट्रेशन तभी होगा जब कंपनी के कम से कम 10% या 100 मज़दूर (जो कम हो) उसके सदस्य हों (धारा 6)।"],
+    uLawPdf:"📄 क़ानून की सरकारी PDF — धारा 6 (पेज 10), दूसरी अनुसूची (पेज 53) ↗",
+    uListTitle:"केंद्रीय ट्रेड यूनियन संगठन (A-Z क्रम में)", uNoSite:"वेबसाइट नहीं मिली — ज़िले के लेबर ऑफ़िस से इसकी शाखा पूछें",
+    uSrc:"सूची का स्रोत: PIB, 7 नवंबर 2017 — केंद्रीय ट्रेड यूनियन संगठनों की श्रम मंत्री के साथ बैठक ↗",
+    uNote:"हम किसी यूनियन या राजनीतिक दल से जुड़े नहीं हैं; सूची सिर्फ़ जानकारी के लिए है। सदस्यता के पैसे दें तो रसीद ज़रूर लें।",
+    uBtn:"🤝 यूनियन से भी मदद लें",
+  });
+  Object.assign(T.en, {
+    uTitle:"🤝 Help from a union — don't fight alone",
+    uSub:"If the government office is slow, or your company has no union, the district / state branches of the big (central) trade unions can help — they often go with workers to the Labour Office, talk to the company and help with the case.",
+    uLaw:["<b>Forming and joining a union is your right.</b> Threatening to dismiss you for joining a union, or punishing you for asking others to join one, is an <b>unfair labour practice</b> and is prohibited (Industrial Relations Code 2020, section 84 and Second Schedule).",
+          "<b>To form your own union:</b> at least 7 members can apply for registration, but it is registered only if at least 10% or 100 of the workers (whichever is less) are members (section 6)."],
+    uLawPdf:"📄 Official PDF of the law — section 6 (page 10), Second Schedule (page 53) ↗",
+    uListTitle:"Central Trade Union Organisations (A-Z)", uNoSite:"Website not found — ask the district Labour Office for its branch",
+    uSrc:"Source of the list: PIB, 7 November 2017 — meeting of Central Trade Union Organisations with the Labour Minister ↗",
+    uNote:"We are not linked to any union or political party; this list is only for information. If you pay a membership fee, always take a receipt.",
+    uBtn:"🤝 Also get help from a union",
+  });
   T.hi.staticOff ="⏳ यह सुविधा जल्द आ रही है। अभी शिकायत के लिए समाधान पोर्टल (samadhan.labour.gov.in) या अपने ज़िले का लेबर ऑफ़िस इस्तेमाल करें।";
   T.en.staticOff = "⏳ This feature is coming soon. For now, use the SAMADHAN portal (samadhan.labour.gov.in) or your district Labour Office.";
   let LANG = 'hi';
@@ -340,7 +379,7 @@
     document.querySelectorAll('[data-t]').forEach(el => el.innerHTML = t(el.dataset.t));
     document.querySelectorAll('[data-tp]').forEach(el => el.placeholder = t(el.dataset.tp));
     document.getElementById('langBtn').textContent = LANG === 'en' ? 'हिं' : 'EN';
-    renderTiles(); fillStates(); loadRights(); renderPortal(); renderReportChips(); renderNext(); coCheck('coCheckReport', false);
+    renderTiles(); fillStates(); loadRights(); renderPortal(); renderReportChips(); renderNext(); coCheck('coCheckReport', false); unionCard();
     if (STATIC) {                     // no server: the complaint becomes a ready letter (letterReport); slip check is off
       document.getElementById('slipStatus').textContent = t('staticOff');
       document.getElementById('scanSlipBtn').disabled = true;
@@ -539,6 +578,18 @@
       <a class="big light" href="https://passbook.epfindia.gov.in/" target="_blank" rel="noopener">${t('coMine')}</a>
       <div class="note">${t('coNote')}</div></details>`;
   }
+  function unionCard() {
+    document.getElementById('unionBox').innerHTML = `<div class="card unioncard" id="unions"><h2>${t('uTitle')}</h2>
+      <p class="sub" style="margin:0 0 .4rem">${t('uSub')}</p>
+      <ul class="law">${t('uLaw').map(x => `<li>${x}</li>`).join('')}</ul>
+      <div class="doclinks"><a href="${IR_PDF}#page=10" target="_blank" rel="noopener">${t('uLawPdf')}</a></div>
+      <h2 style="margin-top:1rem">${t('uListTitle')}</h2>
+      <div class="offices">${UNIONS.map(u => u[2]
+        ? `<a href="${u[2]}" target="_blank" rel="noopener"><b>${u[0]}</b> — ${esc(u[1])} ↗</a>`
+        : `<div class="nosite"><b>${u[0]}</b> — ${esc(u[1])}<br><small>${t('uNoSite')}</small></div>`).join('')}</div>
+      <div class="src"><a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=1508576" target="_blank" rel="noopener">${t('uSrc')}</a></div>
+      <div class="note">${t('uNote')}</div></div>`;
+  }
   // ---- minimum wage card + check (answer page and help page)
   let WAGES = null;
   const wk = { zone: 0, skill: -1, pay: '' };
@@ -615,7 +666,7 @@
     document.getElementById('pilBox').hidden = !(rp.people > 0);
     if (rp.before < 0) { box.innerHTML = ''; return; }
     const cm = CM_HELP[sid];
-    const card = (title, body, btns) => `<div class="nextcard"><b class="t">${title}</b>${body}${btns}</div>`;
+    const card = (title, body, btns) => `<div class="nextcard"><b class="t">${title}</b>${body}${btns}<button class="big light" type="button" data-act="unions">${t('uBtn')}</button></div>`;
     const link = (href, label, cls = 'big') => `<a class="${cls}" href="${href}" target="_blank" rel="noopener">${label}</a>`;
     box.innerHTML = [
       card(t('n0t'), t('n0'), link('https://samadhan.labour.gov.in/', t('n0a')) + `<button class="big light" type="button" data-act="helpMap">${t('n0b')}</button>`),
@@ -746,6 +797,7 @@
     speakGuide: () => speak(GUIDE_TEXT),
     copyLetter: () => copyLetter(),
     pilLetter: () => pilLetter(),
+    unions: () => { go('help'); setTimeout(() => document.getElementById('unions').scrollIntoView({ behavior: 'smooth' }), 30); },
     wageComplain: () => {
       const k = PROBLEMS.findIndex(x => x[3] === 'minwage'); st.problem = k; st.problemId = 'minwage'; rp.problem = k;
       const m = document.getElementById('reportMessage'); m.value = ''; composeMessage(); m.value = (m.value + ' ' + (wk.msg || '')).trim(); rp.auto = '';   // now counts as the worker's own text
