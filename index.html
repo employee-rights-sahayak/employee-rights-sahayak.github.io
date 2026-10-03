@@ -219,6 +219,11 @@
   .bigcase { border-top:5px solid #f59e0b; }
   .rq { margin:1.1rem 0 .5rem; font-size:1.08rem; }
   .wagecard { border-top:5px solid var(--accent); }
+  .ctcbox { border-top:5px solid var(--primary); }
+  .ctcrow { display:flex; justify-content:space-between; gap:.6rem; padding:.45rem 0; border-bottom:1px dashed var(--line); }
+  .ctcrow b { white-space:nowrap; } .ctcrow.tot { font-size:1.12rem; font-weight:800; border-bottom:2px solid var(--line); }
+  .ctcrow.minus b { color:#b42318; } .ctcrow.hand { background:#ecfdf3; border-radius:10px; padding:.6rem .7rem; border:0; margin-top:.4rem; }
+  .ctclaw { padding:.55rem 0; border-bottom:1px solid var(--line); } .ctclaw:last-child { border-bottom:0; }
   .unioncard { border-top:5px solid var(--primary); }
   .unioncard .nosite { padding:.6rem .75rem; margin-top:.45rem; border:1px dashed var(--line); border-radius:12px; color:#33415c; }
   .unioncard .nosite small { color:var(--muted); }
@@ -327,6 +332,7 @@
             <button class="qbtn" type="button" data-go="lawyer"><span class="i">⚖️</span><span data-t="q2"></span></button>
             <button class="qbtn" type="button" data-act="draftClaim"><span class="i">📝</span><span data-t="q3"></span></button>
             <button class="qbtn" type="button" data-act="draftRti"><span class="i">📨</span><span data-t="q4"></span></button>
+            <button class="qbtn qwide" type="button" data-go="ctc"><span class="i">💼</span><span data-t="q7"></span></button>
             <button class="qbtn qwide" type="button" data-act="allRights"><span class="i">📚</span><span data-t="q5"></span></button>
             <button class="qbtn qwide" type="button" data-go="help"><span class="i">🏛️</span><span data-t="q6"></span></button>
           </div>
@@ -459,6 +465,24 @@
         <div id="pilStatus"></div>
       </div>
     </div>
+  </section>
+
+  <!-- SALARY / CTC calculator (3 Oct 2026): what the company spends vs what reaches the hand, and the laws behind a salary -->
+  <section class="screen" id="s-ctc">
+    <h1 data-t="cTitle"></h1>
+    <p class="sub" data-t="cSub"></p>
+    <div class="card">
+      <label class="dl"><span data-t="cBasic"></span><input type="text" inputmode="numeric" id="cBasic" placeholder="₹" /></label>
+      <label class="dl"><span data-t="cHra"></span><input type="text" inputmode="numeric" id="cHra" placeholder="₹" /></label>
+      <label class="dl"><span data-t="cOther"></span><input type="text" inputmode="numeric" id="cOther" placeholder="₹" /></label>
+      <div class="dl"><span data-t="cPfMode"></span></div>
+      <div class="chips" id="cPfModes"></div>
+      <label class="dl" style="margin-top:.6rem"><span data-t="cPt"></span><input type="text" inputmode="numeric" id="cPt" placeholder="₹ 0" /></label>
+      <div class="updated" data-t="cPtHint"></div>
+    </div>
+    <div id="ctcOut"></div>
+    <div class="card"><h2 data-t="cLawTitle"></h2><div id="ctcLaws"></div></div>
+    <div class="note" data-t="disclaimer"></div>
   </section>
 
   <!-- SLIP -->

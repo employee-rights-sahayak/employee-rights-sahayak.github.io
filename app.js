@@ -312,6 +312,54 @@
     colMap:"📍 District Collector's office on the map (address and phone) ↗",
     colHow:"Take 2 copies to the Collector's office (Collectorate) inward section or the public hearing (jan sunwai), and get one copy stamped and dated. Many states hold a weekly public hearing — ask the Collector's office for the day and time. Online, there is also the CM helpline / CPGRAMS (see 'What to do next' below).",
   });
+  // salary / CTC calculator (3 Oct 2026). Rates checked on official sources the same day:
+  // EPF 12% + 12% (8.33% EPS on max Rs 15,000), EDLI 0.5%, admin 0.5% (EPFO "Present rates of contribution");
+  // ESI 0.75% + 3.25% from 01.07.2019, covers wages up to Rs 21,000 (Rs 25,000 disabled) from 01.01.2017 (esic.gov.in);
+  // "wages" = basic + DA + retaining allowance, and excluded parts above one-half are added back (Code on Wages s.2(y), PDF p.4);
+  // gratuity = 15 days per year = 15/26 of a month's wages per year.
+  const CTC = { PF_CEIL: 15000, PF: 0.12, EDLI: 0.005, ADMIN: 0.005, ESI_EMP: 0.0075, ESI_ER: 0.0325, ESI_LIMIT: 21000 };
+  Object.assign(T.hi, {
+    q7:"सैलरी / CTC कैलकुलेटर<small>हाथ में कितना आएगा — और सैलरी पर लगने वाले क़ानून</small>",
+    cTitle:"💼 सैलरी / CTC कैलकुलेटर", cSub:"अपनी पर्ची या ऑफ़र लेटर से महीने की रक़म भरें। कंपनी 'CTC' बड़ा बताती है, पर उसमें कंपनी का PF / ESI / ग्रेच्युटी भी जुड़ा होता है — इसलिए हाथ में कम आता है।",
+    cBasic:"बेसिक + DA (महंगाई भत्ता) — महीना ₹", cHra:"HRA (मकान किराया भत्ता) — महीना ₹", cOther:"बाक़ी भत्ते (कन्वेयंस, स्पेशल अलाउंस आदि) — महीना ₹",
+    cPfMode:"PF किस पर कटता है?", cPfModes:["₹15,000 तक (ज़्यादातर कंपनियाँ)","पूरे वेतन पर","PF नहीं कटता"],
+    cPt:"प्रोफ़ेशनल टैक्स — महीना ₹ (पर्ची में देखें)", cPtHint:"प्रोफ़ेशनल टैक्स राज्य का टैक्स है — मध्य प्रदेश और महाराष्ट्र जैसे राज्यों में लगता है, दिल्ली और उत्तर प्रदेश में नहीं। पर्ची में जितना कटा है वही भरें।",
+    cGross:"कुल सैलरी (Gross)", cEmpPf:"आपका PF (12%)", cEmpEsi:"आपका ESI (0.75%)", cPtRow:"प्रोफ़ेशनल टैक्स", cHand:"✅ हाथ में (महीना)",
+    cErTitle:"कंपनी का अपना ख़र्च (यह भी CTC में जुड़ता है)", cErPf:"कंपनी का PF (12%) — इसमें 8.33% पेंशन (EPS)", cEdli:"बीमा (EDLI 0.5%) + PF ख़र्च (0.5%)",
+    cErEsi:"कंपनी का ESI (3.25%)", cGrat:"ग्रेच्युटी के लिए अलग रखा (15/26 हर साल)", cCtcM:"CTC (महीना)", cCtcY:"CTC (साल)",
+    cWarn50:(add) => `⚠️ आपकी बेसिक + DA कुल सैलरी के आधे से कम है। वेतन संहिता 2019 की धारा 2(y) के हिसाब से PF / ग्रेच्युटी जैसे हिसाब में भत्तों का आधे से ज़्यादा हिस्सा (₹${add}) भी 'वेतन' में जोड़ा जाता है — नीचे का हिसाब उसी से किया गया है।`,
+    cEsiNo:"ESI: आपकी कुल सैलरी ₹21,000 से ज़्यादा है, इसलिए ESI नहीं कटता।", cEsiYes:"ESI: कुल सैलरी ₹21,000 तक है, इसलिए ESI लागू है — इलाज और बीमारी में भत्ता मिलता है।",
+    cNote:"यह अंदाज़ा है। बोनस, इनकम टैक्स (TDS), कैंटीन / वर्दी जैसी और कटौतियाँ इसमें नहीं हैं। कोई कटौती समझ न आए तो कंपनी से लिखित में हिसाब माँगें।",
+    cLawTitle:"📜 सैलरी पर कौन-कौन से क़ानून लगते हैं",
+    cLaws:[
+      ["वेतन संहिता 2019 (Code on Wages)","न्यूनतम मज़दूरी से कम नहीं (धारा 5), समय पर तनख़्वाह (धारा 17), सिर्फ़ जायज़ कटौतियाँ (धारा 18), बराबर काम का बराबर वेतन (धारा 3), ओवरटाइम दोगुना (धारा 14), बोनस। 'वेतन' = बेसिक + DA + रिटेनिंग अलाउंस; HRA, कन्वेयंस जैसे भत्ते आधे से ज़्यादा हों तो ज़्यादा हिस्सा भी वेतन गिना जाता है (धारा 2(y))।"],
+      ["सामाजिक सुरक्षा संहिता 2020 (Social Security Code)","PF (EPFO) — आपका 12% और कंपनी का 12%; ESI (ESIC) — ₹21,000 महीना तक की सैलरी पर; ग्रेच्युटी — 5 साल बाद, हर साल के 15 दिन का वेतन (फ़िक्स्ड-टर्म में 1 साल); मातृत्व लाभ।"],
+      ["राज्य के नियम","न्यूनतम मज़दूरी की दर हर राज्य और हर श्रेणी (अकुशल / कुशल) की अलग; प्रोफ़ेशनल टैक्स; कुछ राज्यों में लेबर वेलफ़ेयर फ़ंड की छोटी कटौती।"],
+      ["इनकम टैक्स","सालाना कमाई टैक्स की सीमा से ऊपर हो तो कंपनी TDS काटती है। पर्ची में TDS कटे तो साल के अंत में Form 16 माँगें।"],
+      ["हर कंपनी का ढाँचा अलग क्यों?","कई कंपनियाँ बेसिक कम और भत्ते ज़्यादा रखती थीं ताकि PF / ग्रेच्युटी कम देना पड़े। नए वेतन कोड का 50% नियम इसे रोकता है। हर महीने पर्ची (salary slip) माँगना आपका हक़ है — उसमें हर कटौती लिखी होनी चाहिए।"],
+    ],
+  });
+  Object.assign(T.en, {
+    q7:"Salary / CTC calculator<small>What reaches your hand — and the laws on salary</small>",
+    cTitle:"💼 Salary / CTC calculator", cSub:"Fill the monthly amounts from your salary slip or offer letter. Companies quote a big 'CTC', but it also contains the company's own PF / ESI / gratuity — so less reaches your hand.",
+    cBasic:"Basic + DA (dearness allowance) — per month ₹", cHra:"HRA (house rent allowance) — per month ₹", cOther:"Other allowances (conveyance, special allowance etc.) — per month ₹",
+    cPfMode:"PF is cut on?", cPfModes:["Up to ₹15,000 (most companies)","Full wages","No PF cut"],
+    cPt:"Professional tax — per month ₹ (see your slip)", cPtHint:"Professional tax is a state tax — charged in states like Madhya Pradesh and Maharashtra, not in Delhi or Uttar Pradesh. Fill what your slip shows.",
+    cGross:"Total salary (Gross)", cEmpPf:"Your PF (12%)", cEmpEsi:"Your ESI (0.75%)", cPtRow:"Professional tax", cHand:"✅ In hand (per month)",
+    cErTitle:"The company's own cost (also added to CTC)", cErPf:"Company PF (12%) — 8.33% of it goes to pension (EPS)", cEdli:"Insurance (EDLI 0.5%) + PF charges (0.5%)",
+    cErEsi:"Company ESI (3.25%)", cGrat:"Kept for gratuity (15/26 every year)", cCtcM:"CTC (per month)", cCtcY:"CTC (per year)",
+    cWarn50:(add) => `⚠️ Your basic + DA is less than half of the total salary. Under section 2(y) of the Code on Wages 2019, the part of allowances above one-half (₹${add}) is also counted as 'wages' for PF / gratuity — the figures below use that.`,
+    cEsiNo:"ESI: your total salary is above ₹21,000, so ESI is not cut.", cEsiYes:"ESI: total salary is up to ₹21,000, so ESI applies — you get treatment and sickness benefit.",
+    cNote:"This is an estimate. Bonus, income tax (TDS) and other cuts like canteen / uniform are not included. If a cut is not clear, ask the company for the calculation in writing.",
+    cLawTitle:"📜 Which laws apply to a salary",
+    cLaws:[
+      ["Code on Wages, 2019","Not below minimum wage (s.5), pay on time (s.17), only lawful deductions (s.18), equal pay for equal work (s.3), double overtime (s.14), bonus. 'Wages' = basic + DA + retaining allowance; if HRA, conveyance etc. are more than half, the excess also counts as wages (s.2(y))."],
+      ["Code on Social Security, 2020","PF (EPFO) — your 12% and the company's 12%; ESI (ESIC) — on salary up to ₹21,000 a month; gratuity — after 5 years, 15 days' wages per year (1 year for fixed-term); maternity benefit."],
+      ["State rules","Minimum wage rates differ by state and category (unskilled / skilled); professional tax; in some states a small labour welfare fund deduction."],
+      ["Income tax","If yearly income is above the tax limit, the company deducts TDS. If TDS is cut on your slip, ask for Form 16 at the end of the year."],
+      ["Why every company's structure differs","Many companies kept basic low and allowances high to pay less PF / gratuity. The new 50% rule stops this. A monthly salary slip is your right — every cut must be written on it."],
+    ],
+  });
   T.hi.staticOff ="⏳ यह सुविधा जल्द आ रही है। अभी शिकायत के लिए समाधान पोर्टल (samadhan.labour.gov.in) या अपने ज़िले का लेबर ऑफ़िस इस्तेमाल करें।";
   T.en.staticOff = "⏳ This feature is coming soon. For now, use the SAMADHAN portal (samadhan.labour.gov.in) or your district Labour Office.";
   let LANG = 'hi';
@@ -412,7 +460,7 @@
     document.querySelectorAll('[data-t]').forEach(el => el.innerHTML = t(el.dataset.t));
     document.querySelectorAll('[data-tp]').forEach(el => el.placeholder = t(el.dataset.tp));
     document.getElementById('langBtn').textContent = LANG === 'en' ? 'हिं' : 'EN';
-    renderTiles(); fillStates(); loadRights(); renderPortal(); renderReportChips(); renderNext(); coCheck('coCheckReport', false); unionCard();
+    renderTiles(); fillStates(); loadRights(); renderPortal(); renderReportChips(); renderNext(); coCheck('coCheckReport', false); unionCard(); renderCtc();
     if (STATIC) {                     // no server: the complaint becomes a ready letter (letterReport); slip check is off
       document.getElementById('slipStatus').textContent = t('staticOff');
       document.getElementById('scanSlipBtn').disabled = true;
@@ -431,7 +479,7 @@
     document.getElementById('s-' + name).classList.add('on');
     document.querySelectorAll('nav.bottom button').forEach(b => b.classList.remove('on'));
     const nav = { work:'nav-work', problem:'nav-work', state:'nav-work', answer:'nav-work', slip:'nav-work',
-                  lawyer:'nav-lawyer', report:'nav-report', help:'nav-help', draft:'nav-report' }[name];
+                  lawyer:'nav-lawyer', report:'nav-report', help:'nav-help', draft:'nav-report', ctc:'nav-work' }[name];
     document.getElementById(nav).classList.add('on');
     document.querySelectorAll('.hnav [data-nav]').forEach(b => b.classList.toggle('on', b.dataset.nav === nav));
     if (name !== 'answer') document.body.dataset.bg = '';
@@ -637,6 +685,35 @@
       <button class="big" type="button" data-act="unionMsg">${t('umBtn')}</button><div id="unionMsgBox"></div>
       <div class="note">${t('uNote')}</div></div>`;
   }
+  // ---- salary / CTC calculator
+  let pfMode = 0;
+  const numIn = id => Math.max(0, parseInt(String(document.getElementById(id).value).replace(/[^0-9]/g, ''), 10) || 0);
+  function renderCtc() {
+    chipRow('cPfModes', t('cPfModes'), pfMode, k => { pfMode = k; renderCtc(); });
+    document.getElementById('ctcLaws').innerHTML = t('cLaws').map(([h, x]) => `<div class="ctclaw"><b>${esc(h)}</b><br>${esc(x)}</div>`).join('');
+    const basic = numIn('cBasic'), hra = numIn('cHra'), other = numIn('cOther'), pt = numIn('cPt'), out = document.getElementById('ctcOut');
+    const gross = basic + hra + other;
+    if (!gross) { out.innerHTML = ''; return; }
+    const excluded = hra + other, addBack = Math.max(0, excluded - gross / 2);       // Code on Wages s.2(y) proviso
+    const wages = basic + addBack;
+    const pfBase = pfMode === 2 ? 0 : pfMode === 0 ? Math.min(wages, CTC.PF_CEIL) : wages;
+    const empPf = Math.round(pfBase * CTC.PF), erPf = Math.round(pfBase * CTC.PF);
+    const edliAdmin = Math.round(Math.min(pfBase, CTC.PF_CEIL) * CTC.EDLI + pfBase * CTC.ADMIN);
+    const esi = gross > 0 && gross <= CTC.ESI_LIMIT, empEsi = esi ? Math.ceil(gross * CTC.ESI_EMP) : 0, erEsi = esi ? Math.ceil(gross * CTC.ESI_ER) : 0;
+    const grat = Math.round(wages * 15 / 26 / 12);
+    const hand = gross - empPf - empEsi - pt, ctcM = gross + erPf + edliAdmin + erEsi + grat;
+    const row = (l, v, c = '') => `<div class="ctcrow ${c}"><span>${l}</span><b>${c.includes('minus') ? '− ' : ''}${rs(v)}</b></div>`;
+    out.innerHTML = `<div class="card ctcbox">
+      ${addBack > 0 ? `<div class="note" style="margin-top:0">${T[LANG].cWarn50(Math.round(addBack).toLocaleString('en-IN'))}</div>` : ''}
+      ${row(t('cGross'), gross, 'tot')}
+      ${empPf ? row(t('cEmpPf'), empPf, 'minus') : ''}${empEsi ? row(t('cEmpEsi'), empEsi, 'minus') : ''}${pt ? row(t('cPtRow'), pt, 'minus') : ''}
+      ${row(t('cHand'), hand, 'tot hand')}
+      <h2 style="margin-top:1rem">${t('cErTitle')}</h2>
+      ${erPf ? row(t('cErPf'), erPf) : ''}${edliAdmin ? row(t('cEdli'), edliAdmin) : ''}${erEsi ? row(t('cErEsi'), erEsi) : ''}${row(t('cGrat'), grat)}
+      ${row(t('cCtcM'), ctcM, 'tot')}${row(t('cCtcY'), ctcM * 12)}
+      <div class="updated">${t(esi ? 'cEsiYes' : 'cEsiNo')}</div><div class="note">${t('cNote')}</div></div>`;
+  }
+  ['cBasic', 'cHra', 'cOther', 'cPt'].forEach(id => document.getElementById(id).addEventListener('input', renderCtc));
   // ---- minimum wage card + check (answer page and help page)
   let WAGES = null;
   const wk = { zone: 0, skill: -1, pay: '' };
