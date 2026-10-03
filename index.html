@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'" />
+<meta name="referrer" content="no-referrer" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Employee Rights Sahayak — free, anonymous help for workers: your rights, step-by-step guides, helplines." />
+<title>Employee Rights Sahayak</title>
+<link rel="icon" href="img/logo-icon.png" type="image/png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  /* Phone-first, for workers (electrician, beldar, fitter ...): one question per screen, big tiles, Hindi + English,
+     speak-to-type and read-aloud. Look (3 Oct 2026, user: "ITI portal jaisa, halka neela"): helpline strip, white header
+     card with icon menu, notice ticker, 3-column home (links | slider + quick access | start card), light-blue theme. */
+  :root {
+    --navy:#0b3d6e; --navy-2:#1559a0; --primary:#1e7fd8; --primary-dark:#1565c0; --soft:#e8f3fd; --accent:#15803d;
+    --sky:#4fa8ee; --sky-2:#2b8fe0;
+    --bg:#f1f7fd; --card:#ffffff; --text:#14213d; --muted:#5b6475; --line:#dde8f3; --warn:#fff7e0; --shadow:0 1px 2px rgba(16,24,40,.06), 0 4px 14px rgba(16,24,40,.06);
+  }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  /* faint trade tools in the background (watermark); safety / overtime answers get their own set (app.js sets data-bg) */
+  body { margin:0; font-family:'Inter','Noto Sans Devanagari', system-ui, -apple-system, sans-serif; background:var(--bg) url(img/bg-tools.svg);
+         color:var(--text); font-size:17.5px; line-height:1.6; padding-bottom:84px; }
+  body[data-bg="safety"] { background-image:url(img/bg-safety.svg); }
+  body[data-bg="clock"] { background-image:url(img/bg-clock.svg); }
+  button, select, textarea, input { font-family:inherit; font-size:1.02rem; }
+  a { color:inherit; }
+
+  /* top: helpline strip on a light-blue band, white header card, notice ticker */
+  .band { background:linear-gradient(180deg, var(--sky-2) 0, var(--sky) 70px, var(--bg) 70px); }
+  .topstrip { max-width:1240px; margin:0 auto; padding:.4rem 1rem; display:flex; gap:.8rem; align-items:center; color:#fff;
+              font-size:.86rem; font-weight:700; }
+  .topstrip .help { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .topstrip a { color:#fff; text-decoration:none; }
+  .pill-btn { background:rgba(255,255,255,.18); color:#fff; border:1px solid rgba(255,255,255,.5); border-radius:999px;
+              padding:.25rem .75rem; font-weight:800; cursor:pointer; font-size:.86rem; white-space:nowrap; }
+  header { position:sticky; top:0; z-index:20; padding:0 1rem; }
+  .hdr { max-width:1240px; margin:0 auto; background:#fff; border-radius:16px; box-shadow:0 4px 18px rgba(11,61,110,.12);
+         display:flex; align-items:center; gap:.7rem; padding:.55rem .9rem; }
+  .logo { width:70px; height:53px; flex:0 0 70px; display:block; object-fit:contain; }
+  .brand { font-weight:800; font-size:1.08rem; line-height:1.15; color:var(--navy); }
+  .brand small { display:block; font-weight:600; font-size:.76rem; color:var(--muted); letter-spacing:.2px; }
+  .hnav { flex:1; display:none; justify-content:center; gap:.2rem; }
+  .hnav button { background:none; border:none; border-bottom:3px solid transparent; padding:.3rem .8rem .35rem; cursor:pointer;
+                 color:#33415c; font-weight:600; font-size:.9rem; display:flex; flex-direction:column; align-items:center; gap:.1rem; }
+  .hnav button span { font-size:1.35rem; line-height:1.2; }
+  .hnav button:hover { color:var(--primary-dark); }
+  .hnav button.on { color:var(--primary); border-bottom-color:var(--primary); font-weight:800; }
+  .hdr .spacer { flex:1; }
+  .hdr .lang { background:var(--soft); color:var(--primary-dark); border:1px solid #c5dff6; }
+  .ticker { max-width:1240px; margin:.75rem auto 0; background:#fff; border-radius:14px; box-shadow:var(--shadow);
+            display:flex; align-items:center; gap:.6rem; padding:.45rem .55rem; }
+  .ticker .lbl { background:var(--primary); color:#fff; border-radius:10px; padding:.35rem .9rem; font-weight:800; white-space:nowrap; font-size:.95rem; }
+  .ticker .track { flex:1; min-width:0; overflow:hidden; white-space:nowrap; scrollbar-width:none; }
+  .ticker .track::-webkit-scrollbar { display:none; }
+  .ticker .item { display:inline-flex; align-items:center; gap:.4rem; padding:0 1.1rem; border-right:1px solid var(--line); font-weight:700; font-size:.92rem; }
+  .ticker .new { background:#f59e0b; color:#fff; font-size:.68rem; font-weight:800; border-radius:6px; padding:.05rem .4rem; }
+  .ticker .arr { width:36px; height:36px; border-radius:10px; border:1.5px solid var(--primary); background:#fff; color:var(--primary);
+                 font-weight:800; cursor:pointer; flex:0 0 36px; display:none; }
+  .test { background:var(--warn); color:#7a5b00; text-align:center; font-size:.82rem; padding:.3rem .6rem; margin-top:.75rem; border-radius:10px; }
+
+  .wrap { max-width:1240px; margin:0 auto; padding:1rem; }
+  .screen { display:none; animation:rise .18s ease-out; }
+  .screen.on { display:block; }
+  .screen:not(#s-work) { max-width:880px; margin:0 auto; }
+
+  /* home portal: links | slider + quick access | start card (stacks on a phone) */
+  .portal { display:grid; gap:1rem; grid-template-columns:minmax(0, 1fr); margin-bottom:1.2rem; }
+  .portal > * { min-width:0; }
+  .pcard { background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden; }
+  .phead { background:linear-gradient(90deg, var(--primary), var(--sky)); color:#fff; font-weight:800; padding:.7rem 1rem; font-size:1.02rem; letter-spacing:.3px; }
+  .links a { display:flex; align-items:center; gap:.65rem; padding:.62rem 1rem; text-decoration:none; color:#1e2a44; font-weight:700;
+             font-size:.92rem; border-bottom:1px solid #eef3f9; }
+  .links a:hover { background:var(--soft); }
+  .links a .i { width:1.6rem; text-align:center; flex:0 0 1.6rem; }
+  .links a .t { flex:1; min-width:0; }
+  .links a .go { color:#7b8aa3; }
+  .slider { position:relative; border-radius:16px; overflow:hidden; box-shadow:var(--shadow); min-height:300px; display:grid; }
+  .slide { grid-area:1 / 1; display:flex; align-items:center; padding:1.6rem 3.4rem 2.2rem; color:#fff; min-height:300px;
+           opacity:0; transition:opacity .6s; pointer-events:none; }
+  .slide.on { opacity:1; pointer-events:auto; }
+  .slide h2 { color:#fff; font-size:1.5rem; margin:0 0 .35rem; display:block; line-height:1.3; }
+  .slide p { margin:0 0 .8rem; font-size:1rem; opacity:.95; }
+  .slide .cta { display:inline-block; background:#fff; color:var(--primary-dark); border:none; border-radius:10px; padding:.5rem 1rem;
+                font-weight:800; cursor:pointer; font-size:.95rem; }
+  /* worker photos (Wikimedia Commons, free licences - credits in the footer); blue shade on the left keeps the text readable */
+  .slide { --shade:linear-gradient(90deg, rgba(8,52,98,.93) 0, rgba(8,52,98,.72) 45%, rgba(8,52,98,.08) 85%); }
+  .s0 { background:var(--shade), url(img/construction.jpg) center/cover; }
+  .s1 { background:var(--shade), url(img/electrician.jpg) 70% center/cover; }
+  .s2 { background:var(--shade), url(img/women.jpg) 70% center/cover; }
+  .s3 { background:var(--shade), url(img/factory.jpg) center/cover; }
+  .slide .txt { max-width:520px; text-shadow:0 1px 3px rgba(0,0,0,.35); }
+  .credits { font-size:.72rem; margin-top:.4rem; } .credits a { color:var(--muted); }
+  .sl-arr { position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%; border:none;
+            background:rgba(255,255,255,.9); color:var(--navy); font-weight:800; cursor:pointer; z-index:2; font-size:1.1rem; }
+  .sl-arr.l { left:.6rem; } .sl-arr.r { right:.6rem; }
+  .dots { position:absolute; bottom:.6rem; left:0; right:0; display:flex; justify-content:center; gap:.4rem; z-index:2; }
+  .dots button { width:10px; height:10px; border-radius:50%; border:none; background:rgba(255,255,255,.55); cursor:pointer; padding:0; }
+  .dots button.on { background:#fff; width:24px; border-radius:6px; }
+  .quick { padding:1rem; margin-top:1rem; }
+  .quick h2 { color:var(--navy); margin:0 0 .7rem; }
+  .qgrid { display:grid; grid-template-columns:repeat(2, 1fr); gap:.6rem; }
+  .qbtn { display:flex; align-items:center; gap:.6rem; background:#fbfdff; border:1px solid var(--line); border-radius:12px;
+          padding:.7rem .75rem; cursor:pointer; text-align:left; font-weight:700; font-size:.92rem; color:#1e2a44;
+          box-shadow:0 1px 3px rgba(16,24,40,.05); }
+  .qbtn:hover { border-color:var(--sky); background:var(--soft); }
+  .qbtn .i { font-size:1.6rem; flex:0 0 auto; }
+  .qwide { grid-column:1 / -1; justify-content:center; text-align:center; flex-direction:row; font-size:1rem; padding:.85rem; }
+  .qwide small { display:block; font-weight:600; color:var(--muted); font-size:.84rem; }
+  .startcard .hero { background:linear-gradient(120deg, var(--primary-dark), var(--sky)); color:#fff; padding:1rem; display:flex; gap:.8rem; align-items:center; }
+  .startcard .logobox { background:#fff; padding:.6rem .6rem 0; border-bottom:1px solid var(--line); }
+  .startcard .logobox img { display:block; width:100%; max-width:300px; height:auto; margin:0 auto; }
+  .startcard .hero b { font-size:1.15rem; line-height:1.3; }
+  .startcard .body { padding:1rem; }
+  .startcard h1 { color:var(--navy); font-size:1.3rem; margin:0 0 .3rem; }
+  .startcard .or { text-align:center; font-weight:800; color:var(--muted); margin:.6rem 0 0; font-size:.85rem; }
+  @media (min-width:1000px) {
+    .portal { grid-template-columns:300px minmax(0, 1fr) 320px; align-items:start; }
+    .hnav { display:flex; } .hdr .spacer { display:none; }
+    .ticker .arr { display:block; }
+    .qwide { grid-column:auto; justify-content:flex-start; text-align:left; }
+  }
+  @media (max-width:999px) { .portal .linkscard { order:3; } .portal .startcard { order:-1; } }
+  @media (max-width:560px) { .slide { padding:1.1rem 2.9rem 2rem; min-height:260px; } .slide h2 { font-size:1.18rem; } }
+  @media (prefers-reduced-motion:reduce) { .slide { transition:none; } }
+  @keyframes rise { from { transform:translateY(5px); } to { transform:none; } }   /* no opacity: never faded on old phones */
+
+  /* intro (first screen) */
+  .intro { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:1.1rem 1.1rem .9rem; margin-bottom:1rem; }
+  .intro h1 { margin:0 0 .35rem; }
+  .trust { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.5rem; }
+  .trust span { background:#eef4ff; color:#1d3d6b; border:1px solid #d9e5f7; border-radius:999px; padding:.18rem .65rem; font-size:.86rem; font-weight:600; }
+
+  .progress { display:flex; gap:.35rem; margin:.25rem 0 .9rem; }
+  .progress div { flex:1; height:6px; border-radius:99px; background:#dde3ec; }
+  .progress div.done { background:var(--primary); }
+  .step-label { font-size:.86rem; color:var(--muted); margin:0; font-weight:600; letter-spacing:.3px; text-transform:uppercase; }
+  h1 { font-size:1.55rem; line-height:1.3; margin:.15rem 0 .3rem; letter-spacing:-.2px; }
+  h2 { font-size:1.18rem; margin:.1rem 0 .6rem; display:flex; align-items:center; gap:.45rem; }
+  .sub { color:var(--muted); margin:0 0 1rem; }
+
+  /* tiles */
+  .tiles { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:.7rem; }
+  .tile { background:var(--card); border:1.5px solid var(--line); border-radius:16px; padding:.9rem .6rem; min-height:120px;
+          display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; cursor:pointer;
+          font-weight:700; font-size:1rem; color:var(--text); box-shadow:var(--shadow); transition:transform .08s, border-color .1s; }
+  .tile .ic { width:56px; height:56px; border-radius:50%; background:var(--soft); display:grid; place-items:center; font-size:1.8rem; margin-bottom:.45rem; }
+  .tile:hover { border-color:#9ccbf2; }
+  .tile:active { transform:scale(.98); }
+  .tile.on { border-color:var(--primary); background:var(--soft); }
+
+  /* buttons */
+  .big { width:100%; border:none; border-radius:14px; background:var(--primary); color:#fff; font-weight:800; font-size:1.08rem;
+         min-height:56px; margin-top:.75rem; cursor:pointer; text-decoration:none; display:flex; align-items:center;
+         justify-content:center; gap:.5rem; padding:.45rem .9rem; text-align:center; box-shadow:0 2px 6px rgba(30,127,216,.25); }
+  .big:hover { background:var(--primary-dark); }
+  .big.green { background:var(--accent); box-shadow:0 2px 6px rgba(21,128,61,.25); }
+  .big.light { background:#fff; color:var(--navy); border:1.5px solid var(--line); box-shadow:none; }
+  .big.light:hover { background:#f7f9fc; }
+  .big:disabled { background:#cfd6e1; color:#6b7385; box-shadow:none; cursor:not-allowed; }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+  .back { background:none; border:none; color:var(--navy-2); font-weight:700; cursor:pointer; padding:.3rem 0; font-size:.98rem; }
+
+  select, textarea, input[type=text] { width:100%; padding:.85rem .9rem; border:1.5px solid var(--line); border-radius:12px; background:#fff; color:var(--text); }
+  select:focus, textarea:focus, input:focus { outline:3px solid #bfdcf7; border-color:var(--primary); }
+  input[type=file] { width:100%; padding:.9rem; border:2px dashed #c9d3e1; border-radius:12px; background:#fff; }
+  textarea { min-height:110px; resize:vertical; }
+
+  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.05rem; margin-top:.85rem; box-shadow:var(--shadow); }
+  .summary { display:flex; flex-wrap:wrap; gap:.4rem; margin:.2rem 0 .3rem; }
+  .tag { background:#eef4ff; color:#1d3d6b; border-radius:999px; padding:.2rem .7rem; font-weight:700; font-size:.88rem; border:1px solid #d9e5f7; }
+  .n { display:inline-grid; place-items:center; width:1.85rem; height:1.85rem; border-radius:50%; background:var(--navy); color:#fff; font-size:.92rem; flex:0 0 1.85rem; }
+  .haq { font-size:1.05rem; }
+  .card.haqcard { border-left:5px solid var(--accent); }
+  .law { margin:.2rem 0 0; padding-left:1.2rem; }
+  .law li { margin:.25rem 0; }
+  .docs label { display:flex; gap:.65rem; align-items:flex-start; padding:.6rem .1rem; border-bottom:1px dashed var(--line); cursor:pointer; }
+  .docs label:last-child { border-bottom:none; }
+  .docs input { width:24px; height:24px; flex:0 0 24px; margin-top:.15rem; accent-color:var(--accent); }
+  .docs label.got span { color:var(--accent); text-decoration:line-through; }
+  ol.steps-list { padding-left:0; margin:.2rem 0; list-style:none; counter-reset:s; }
+  ol.steps-list li { counter-increment:s; position:relative; padding:.5rem 0 .5rem 2.4rem; border-bottom:1px dashed var(--line); }
+  ol.steps-list li:last-child { border-bottom:none; }
+  ol.steps-list li::before { content:counter(s); position:absolute; left:0; top:.55rem; width:1.7rem; height:1.7rem; border-radius:50%;
+                             background:var(--soft); color:var(--primary-dark); font-weight:800; display:grid; place-items:center; font-size:.9rem; }
+  .time { background:#fff1f1; border-left:5px solid #dc2626; border-radius:10px; padding:.65rem .85rem; font-weight:600; }
+  .doclinks a { display:flex; align-items:center; gap:.5rem; padding:.65rem .8rem; margin-top:.5rem; border:1px solid var(--line);
+                border-radius:12px; color:var(--navy-2); font-weight:700; text-decoration:none; background:#fbfcfe; }
+  .doclinks a:hover { border-color:#b8c7dc; }
+  .updated { font-size:.84rem; color:var(--muted); margin-top:.6rem; }
+  .lawyer { border:1px solid var(--line); border-radius:12px; padding:.85rem; margin-top:.6rem; background:#fff; box-shadow:var(--shadow); }
+  .lawyer a { color:var(--accent); font-weight:800; text-decoration:none; }
+  .badge { font-size:.78rem; padding:.1rem .5rem; border-radius:999px; background:#e7f6ec; color:#166534; margin-left:.3rem; font-weight:700; }
+  .status { margin-top:.7rem; font-weight:600; }
+  .note { background:var(--warn); border:1px solid #f1e3b0; border-radius:12px; padding:.7rem .9rem; font-size:.9rem; margin-top:1rem; color:#5c4a00; }
+
+  .rights { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:.75rem; margin-top:.6rem; }
+  .right { min-width:0; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:.9rem; box-shadow:var(--shadow); display:flex; flex-direction:column; }
+  .right .top { display:flex; gap:.6rem; align-items:center; }
+  .right .ic { width:42px; height:42px; flex:0 0 42px; border-radius:50%; background:var(--soft); display:grid; place-items:center; font-size:1.35rem; }
+  .right h3 { margin:0; font-size:1.02rem; line-height:1.3; }
+  .right p { margin:.45rem 0 .3rem; font-size:.93rem; color:#2c3a52; flex:1; }
+  .right .lawline, .right .doc { overflow-wrap:anywhere; }
+  .right .lawline { font-size:.8rem; color:var(--muted); margin-bottom:.4rem; }
+  .right .doc { display:block; font-size:.86rem; font-weight:700; color:var(--navy-2); text-decoration:none; padding:.25rem 0; }
+  .right .more { margin-top:.5rem; min-height:46px; font-size:.98rem; }
+  .section-title { margin:1.6rem 0 .2rem; }
+  .offices a { display:block; padding:.6rem .75rem; margin-top:.45rem; border:1px solid var(--line); border-radius:12px; text-decoration:none; color:var(--navy-2); font-weight:700; background:#fbfcfe; }
+  .lawq { border:2px solid #f2c94c; background:#fffdf3; }
+  .lawq .src { font-size:.85rem; color:var(--muted); margin:.1rem 0 .5rem; }
+  .lawq .official { font-family:Georgia, serif; font-size:.92rem; line-height:1.55; color:#2c3a52; background:#fff; border-left:4px solid var(--navy-2); padding:.6rem .75rem; border-radius:8px; }
+  .lawq .simple { font-size:1.05rem; line-height:1.6; margin-top:.6rem; padding:.6rem .75rem; background:#fff; border-radius:8px; border:1px solid var(--line); }
+  .lawq mark { background:#ffe066; color:inherit; padding:0 .15em; border-radius:3px; font-weight:700; }
+  .lawq .row { display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; margin-top:.6rem; }
+  .lawq select { min-height:44px; font-size:1rem; padding:.3rem .5rem; border-radius:10px; border:1px solid var(--line); }
+  .lawq .hlpdf { background:#fff3c4 !important; border-color:#f2c94c !important; }
+  .lawq .note { font-size:.8rem; color:var(--muted); margin-top:.35rem; }
+  .dl { display:block; margin:.55rem 0; } .dl span { display:block; font-weight:700; font-size:.92rem; margin-bottom:.2rem; }
+  .dl input, .dl select, .dl textarea { width:100%; box-sizing:border-box; min-height:46px; font-size:1rem; padding:.45rem .6rem; border:1px solid var(--line); border-radius:10px; font-family:inherit; background:#fff; }
+  .dl2 { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; }
+  .chk { display:flex; gap:.5rem; align-items:flex-start; padding:.45rem 0; font-size:.95rem; } .chk input { width:22px; height:22px; flex:0 0 22px; margin-top:.1rem; }
+  .tabs2 { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; } .tab { min-height:52px; border-radius:12px; border:2px solid var(--line); background:#fff; font-weight:800; font-size:.95rem; cursor:pointer; font-family:inherit; }
+  .tab.on { border-color:var(--navy-2); background:var(--soft); }
+  .letter { white-space:pre-wrap; font-family:'Noto Sans Devanagari', Inter, sans-serif; font-size:.95rem; line-height:1.6; background:#fff; border:1px solid var(--line); border-radius:10px; padding:.9rem; margin:.6rem 0; overflow-wrap:anywhere; }
+  @media print {
+    body * { visibility:hidden !important; }
+    #d-letter, #d-letter * { visibility:visible !important; }
+    #d-letter { position:absolute; left:0; top:0; width:100%; border:0; padding:0; font-size:12pt; }
+  }
+  footer { max-width:1240px; margin:1.4rem auto 0; padding:0 1rem 1rem; color:var(--muted); font-size:.82rem; text-align:center; }
+
+  nav.bottom { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line);
+               display:grid; grid-template-columns:repeat(4,1fr); z-index:30; box-shadow:0 -4px 14px rgba(16,24,40,.06); }
+  nav.bottom button { background:none; border:none; padding:.45rem 0 .55rem; cursor:pointer; font-size:.8rem; color:var(--muted);
+                      font-weight:700; display:flex; flex-direction:column; align-items:center; gap:.05rem; }
+  nav.bottom button span { font-size:1.45rem; }
+  nav.bottom button.on { color:var(--primary); }
+  @media (min-width:700px) { h1 { font-size:1.8rem; } .tiles { grid-template-columns:repeat(auto-fill, minmax(165px, 1fr)); } }
+  @media (min-width:1000px) { nav.bottom { display:none; } body { padding-bottom:0; } }
+</style>
+</head>
+<body>
+
+<div class="band">
+  <div class="topstrip">
+    <span class="help" data-t="topHelp"></span>
+    <button class="pill-btn" id="langBtn" type="button" aria-label="language">EN</button>
+  </div>
+</div>
+<header>
+  <div class="hdr">
+    <img class="logo" src="img/logo-mark.png" alt="Employee Rights logo" width="70" height="53" />
+    <div class="brand">Employee Rights Sahayak<small data-t="tagline"></small></div>
+    <nav class="hnav">
+      <button type="button" data-nav="nav-work" data-act="restart"><span>🏠</span><b data-t="navHome"></b></button>
+      <button type="button" data-nav="nav-rights" data-act="allRights"><span>📚</span><b data-t="navRights"></b></button>
+      <button type="button" data-nav="nav-lawyer" data-go="lawyer"><span>⚖️</span><b data-t="navLawyer"></b></button>
+      <button type="button" data-nav="nav-report" data-go="report"><span>🕵️</span><b data-t="navReport"></b></button>
+      <button type="button" data-nav="nav-help" data-go="help"><span>📞</span><b data-t="navHelp"></b></button>
+    </nav>
+    <span class="spacer"></span>
+    <button class="pill-btn lang" type="button" data-go="help" data-t="helpBtn"></button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="ticker">
+    <span class="lbl" data-t="noticeLbl"></span>
+    <div class="track" id="tickerTrack"></div>
+    <button class="arr" type="button" data-act="tickPrev" aria-label="previous">←</button>
+    <button class="arr" type="button" data-act="tickNext" aria-label="next">→</button>
+  </div>
+  <div class="test" data-t="testMode"></div>
+</div>
+
+<div class="wrap">
+
+  <!-- 1. WORK (home: links | slider + quick access | start card, then step 1 and all rights) -->
+  <section class="screen on" id="s-work">
+    <div class="portal">
+      <aside class="pcard linkscard">
+        <div class="phead" data-t="linksTitle2"></div>
+        <div class="links" id="linksList"></div>
+      </aside>
+      <div>
+        <div class="slider" id="slider">
+          <button class="sl-arr l" type="button" data-act="slidePrev" aria-label="previous">‹</button>
+          <button class="sl-arr r" type="button" data-act="slideNext" aria-label="next">›</button>
+          <div class="dots" id="sliderDots"></div>
+        </div>
+        <div class="pcard quick">
+          <h2 data-t="quickTitle"></h2>
+          <div class="qgrid">
+            <button class="qbtn" type="button" data-act="startSteps"><span class="i">✅</span><span data-t="q1"></span></button>
+            <button class="qbtn" type="button" data-go="lawyer"><span class="i">⚖️</span><span data-t="q2"></span></button>
+            <button class="qbtn" type="button" data-act="draftClaim"><span class="i">📝</span><span data-t="q3"></span></button>
+            <button class="qbtn" type="button" data-act="draftRti"><span class="i">📨</span><span data-t="q4"></span></button>
+            <button class="qbtn qwide" type="button" data-act="allRights"><span class="i">📚</span><span data-t="q5"></span></button>
+            <button class="qbtn qwide" type="button" data-go="help"><span class="i">🏛️</span><span data-t="q6"></span></button>
+          </div>
+        </div>
+      </div>
+      <aside class="pcard startcard">
+        <div class="logobox"><img src="img/logo-full.jpg" alt="Employee Rights — Unity for Rights &amp; Justice" width="640" height="640" /></div>
+        <div class="body">
+          <h1 data-t="introTitle"></h1>
+          <div class="sub" style="margin:0" data-t="introSub"></div>
+          <div class="trust"><span data-t="trust1"></span><span data-t="trust2"></span><span data-t="trust3"></span></div>
+          <button class="big" type="button" data-act="startSteps" data-t="startBtn"></button>
+          <p class="or" data-t="orWord"></p>
+          <button class="big green" type="button" data-go="help" data-t="getHelp"></button>
+          <button class="big light" type="button" data-act="allRights" data-t="learnLaws"></button>
+        </div>
+      </aside>
+    </div>
+
+    <div id="startHere"></div>
+    <div class="progress"><div class="done"></div><div></div><div></div><div></div></div>
+    <p class="step-label" data-t="step1"></p>
+    <h1 data-t="workQ"></h1>
+    <p class="sub" data-t="tapPicture"></p>
+    <div class="tiles" id="workTiles"></div>
+
+    <h1 class="section-title" data-t="allRightsTitle"></h1>
+    <p class="sub" data-t="allRightsSub"></p>
+    <div class="rights" id="rightsList"></div>
+  </section>
+
+  <!-- 2. PROBLEM -->
+  <section class="screen" id="s-problem">
+    <button class="back" data-go="work" data-t="back"></button>
+    <div class="progress"><div class="done"></div><div class="done"></div><div></div><div></div></div>
+    <p class="step-label" data-t="step2"></p>
+    <h1 data-t="problemQ"></h1>
+    <p class="sub" data-t="problemSub"></p>
+    <div class="tiles" id="problemTiles"></div>
+    <div class="card">
+      <h2 data-t="otherTitle"></h2>
+      <textarea id="ownText" data-tp="ownPh"></textarea>
+      <button class="big light" id="micBtn" type="button" data-t="speak"></button>
+      <button class="big" type="button" data-act="pickOwn" data-t="next"></button>
+    </div>
+  </section>
+
+  <!-- 3. STATE -->
+  <section class="screen" id="s-state">
+    <button class="back" data-go="problem" data-t="back"></button>
+    <div class="progress"><div class="done"></div><div class="done"></div><div class="done"></div><div></div></div>
+    <p class="step-label" data-t="step3"></p>
+    <h1 data-t="stateQ"></h1>
+    <p class="sub" data-t="stateSub"></p>
+    <select id="stateSelect"></select>
+    <button class="big" id="stateNext" type="button" disabled data-act="showAnswer" data-t="seeAnswer"></button>
+  </section>
+
+  <!-- ANSWER -->
+  <section class="screen" id="s-answer">
+    <button class="back" data-go="state" data-t="back"></button>
+    <div class="progress"><div class="done"></div><div class="done"></div><div class="done"></div><div class="done"></div></div>
+    <h1 data-t="answerTitle"></h1>
+    <div class="summary" id="summary"></div>
+    <div id="guide"></div>
+    <div id="helplineBox"></div>
+    <div class="row2">
+      <button class="big" type="button" data-go="lawyer" data-t="lawyerBtn"></button>
+      <button class="big" type="button" data-act="reportFromAnswer" data-t="reportBtnNav"></button>
+    </div>
+    <div class="row2">
+      <button class="big" type="button" data-act="draftClaim" data-dt="typeClaim"></button>
+      <button class="big" type="button" data-act="draftRti" data-dt="typeRti"></button>
+    </div>
+    <button class="big light" type="button" data-go="slip" data-t="slipBtn"></button>
+    <button class="big light" type="button" data-act="restart" data-t="newQ"></button>
+    <div class="note" data-t="disclaimer"></div>
+  </section>
+
+  <!-- LAWYER -->
+  <section class="screen" id="s-lawyer">
+    <h1 data-t="lawyerTitle"></h1>
+    <p class="sub" data-t="lawyerSub"></p>
+    <button class="big" id="findLawyerBtn" type="button" data-t="findLawyer"></button>
+    <div id="lawyerResults"></div>
+    <div class="note" data-t="legalAidNote"></div>
+  </section>
+
+  <!-- REPORT -->
+  <section class="screen" id="s-report">
+    <h1 data-t="reportTitle"></h1>
+    <p class="sub" data-t="reportSub"></p>
+    <select id="reportState"></select>
+    <input type="text" id="reportCompany" data-tp="companyPh" style="margin-top:.6rem" />
+    <textarea id="reportMessage" data-tp="reportPh" style="margin-top:.6rem"></textarea>
+    <button class="big light" id="micReport" type="button" data-t="speak"></button>
+    <button class="big" id="reportBtn" type="button" data-t="sendReport"></button>
+    <div class="status" id="reportStatus"></div>
+  </section>
+
+  <!-- SLIP -->
+  <section class="screen" id="s-slip">
+    <h1 data-t="slipTitle"></h1>
+    <p class="sub" data-t="slipSub"></p>
+    <input type="file" id="slipFile" accept="image/*,.pdf" capture="environment" />
+    <button class="big" id="scanSlipBtn" type="button" data-t="checkSlip"></button>
+    <div class="status" id="slipStatus"></div>
+  </section>
+
+  <!-- HELP -->
+  <section class="screen" id="s-draft">
+    <button class="back" data-go="answer" data-t="back"></button>
+    <h1 id="draftTitle"></h1>
+    <p class="sub" id="draftSub"></p>
+    <div id="draftBox"></div>
+  </section>
+
+  <section class="screen" id="s-help">
+    <h1 data-t="helpTitle"></h1>
+    <p class="sub" data-t="helpSub"></p>
+    <select id="helpState"></select>
+    <div id="helpBox"></div>
+    <button class="big" type="button" data-act="draftClaim" data-dt="makeBtn"></button>
+    <div class="card">
+      <h2 data-t="whereTitle"></h2>
+      <div data-t="whereBody"></div>
+    </div>
+  </section>
+</div>
+
+<footer><div data-t="footer"></div><div class="credits" data-t="photoCredits"></div></footer>
+
+<nav class="bottom">
+  <button id="nav-work" class="on" data-act="restart"><span>🏠</span><b data-t="navHome"></b></button>
+  <button id="nav-lawyer" data-go="lawyer"><span>⚖️</span><b data-t="navLawyer"></b></button>
+  <button id="nav-report" data-go="report"><span>🕵️</span><b data-t="navReport"></b></button>
+  <button id="nav-help" data-go="help"><span>📞</span><b data-t="navHelp"></b></button>
+</nav>
+
+<script src="app.js"></script>
+<script src="draft.js"></script>
+</body>
+</html>

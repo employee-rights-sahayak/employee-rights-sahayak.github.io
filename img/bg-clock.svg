@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
+<g fill="none" stroke="#0b3d6e" stroke-opacity=".075" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <g transform="translate(40 40) rotate(-15)"><circle r="18"/><path d="M0 -10 V0 L8 6"/></g>
+  <g transform="translate(150 30) rotate(20)"><path d="M-26 26 L6 -6"/><path d="M6 -6 a13 13 0 1 1 12 -4 l-9 -9 l-7 7 z"/></g>
+  <g transform="translate(250 60) rotate(-30)"><circle r="11"/><circle r="4"/><path d="M0 -12 V-18" transform="rotate(0)"/><path d="M0 -12 V-18" transform="rotate(45)"/><path d="M0 -12 V-18" transform="rotate(90)"/><path d="M0 -12 V-18" transform="rotate(135)"/><path d="M0 -12 V-18" transform="rotate(180)"/><path d="M0 -12 V-18" transform="rotate(225)"/><path d="M0 -12 V-18" transform="rotate(270)"/><path d="M0 -12 V-18" transform="rotate(315)"/></g>
+  <g transform="translate(80 140) rotate(35)"><circle r="18"/><path d="M0 -10 V0 L8 6"/></g>
+  <g transform="translate(190 130) rotate(-10)"><rect x="-5" y="-26" width="10" height="20" rx="3"/><path d="M0 -6 V22 M-3 22 H3"/></g>
+  <g transform="translate(290 170) rotate(25)"><path d="M4 -24 L-10 4 H0 L-4 24 L12 -6 H2 Z"/></g>
+  <g transform="translate(30 250) rotate(10)"><circle r="18"/><path d="M0 -10 V0 L8 6"/></g>
+  <g transform="translate(140 240) rotate(-25)"><path d="M-14 24 Q-6 2 4 -14 M14 24 Q6 2 -4 -14"/><path d="M4 -14 L8 -26 M-4 -14 L-8 -26"/><circle cx="0" cy="-6" r="2.5"/></g>
+  <g transform="translate(240 270) rotate(15)"><circle r="11"/><circle r="4"/><path d="M0 -12 V-18" transform="rotate(0)"/><path d="M0 -12 V-18" transform="rotate(45)"/><path d="M0 -12 V-18" transform="rotate(90)"/><path d="M0 -12 V-18" transform="rotate(135)"/><path d="M0 -12 V-18" transform="rotate(180)"/><path d="M0 -12 V-18" transform="rotate(225)"/><path d="M0 -12 V-18" transform="rotate(270)"/><path d="M0 -12 V-18" transform="rotate(315)"/></g>
+</g>
+</svg>
