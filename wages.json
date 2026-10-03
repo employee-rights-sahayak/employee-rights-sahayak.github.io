@@ -18,7 +18,7 @@
   "up": {
     "from": "2026-04-01", "till": "2026-09-30",
     "for": { "hi": "74 अनुसूचित रोज़गार (आदेश 374/36-2-2026-2041256, 17 अप्रैल 2026)", "en": "74 scheduled employments (order 374/36-2-2026-2041256, 17 April 2026)" },
-    "note": { "hi": "यह दर 30 सितंबर 2026 तक की है; 1 अक्टूबर 2026 का नया आदेश आते ही बदलेगी (आमतौर पर थोड़ी बढ़ती है)।", "en": "This rate is till 30 September 2026; it changes when the 1 October 2026 order comes (usually a little higher)." },
+    "note": { "hi": "1 अक्टूबर 2026 का नया आदेश अभी (3 अक्टूबर 2026 तक) नहीं आया है। नई दर आमतौर पर थोड़ी ज़्यादा होती है और 1 अक्टूबर से लागू मानी जाती है — इसलिए आपको कम से कम इतना तो मिलना ही चाहिए।", "en": "The 1 October 2026 order has not come yet (as of 3 October 2026). The new rate is usually a little higher and counts from 1 October — so you must get at least this much." },
     "rows": [
       { "zone": { "hi": "नोएडा (गौतम बुद्ध नगर) और गाज़ियाबाद", "en": "Noida (Gautam Buddha Nagar) and Ghaziabad" }, "unskilled": 13690, "semi": 15059, "skilled": 16868, "high": null },
       { "zone": { "hi": "नगर निगम वाले शहर", "en": "Municipal corporation cities" }, "unskilled": 13006, "semi": 14306, "skilled": 16025, "high": null },
