@@ -151,6 +151,40 @@
     letterCopied:"Letter copied. Now paste it in the portal or WhatsApp.",
     letterNote:"🔒 This letter is made only on your phone — nothing is sent to or stored by us. You decide whether to give your name when you file it.",
   });
+  // bigger matter (3 Oct 2026): escalation ladder + Supreme Court PIL letter. PIL rules = SC "Compilation of guidelines
+  // ... letters/petitions ... as PIL" (full Court 1.12.1988, modified 1993/2003): labour-law violations, minimum wages,
+  // casual workers, bonded labour - "except in individual cases"; service, pension and gratuity matters are NOT taken.
+  const CM_HELP = { mp:['181','https://cmhelpline.mp.gov.in/'], up:['1076','https://jansunwai.up.nic.in/'] };
+  Object.assign(T.hi, {
+    bigTitle:"⚖️ बड़ा मामला? बात ऊपर तक पहुँचाएँ", bigSub:"इसी क्रम में चलें — हर कदम का लिखित सबूत (शिकायत नंबर, मुहर लगी कॉपी) सँभालकर रखें, अगले कदम पर काम आता है।",
+    big1:"<b>ज़िले का लेबर ऑफ़िस</b> — ऊपर बनी चिट्ठी देकर <b>मुहर लगी कॉपी</b> लें, या समाधान पोर्टल पर शिकायत नंबर लें।",
+    big2cm:n => `<b>मुख्यमंत्री हेल्पलाइन ${n[0]}</b> पर फ़ोन करें या <a href="${n[1]}" target="_blank" rel="noopener">ऑनलाइन शिकायत ↗</a> — शिकायत सीधे बड़े अफ़सरों तक जाती है।`,
+    big2:'<b>केंद्र सरकार का शिकायत पोर्टल (CPGRAMS)</b> — <a href="https://pgportal.gov.in/" target="_blank" rel="noopener">pgportal.gov.in ↗</a>, शिकायत मंत्रालय तक जाती है और नंबर से ट्रैक होती है।',
+    big3:'<b>बंधुआ मज़दूरी / बहुत ज़्यादा ज़ुल्म</b> — राष्ट्रीय मानवाधिकार आयोग (NHRC) में <a href="https://hrcnet.nic.in/HRCNet/public/webcomplaint.aspx" target="_blank" rel="noopener">ऑनलाइन शिकायत ↗</a>।',
+    big4:'<b>मुफ़्त सरकारी वकील — <a href="tel:15100">15100</a> (NALSA)</b> — लेबर कोर्ट या हाई कोर्ट में केस मुफ़्त में।',
+    big5:"<b>सुप्रीम कोर्ट (PIL)</b> — सिर्फ़ <b>कई मज़दूरों</b> का मामला: नीचे चिट्ठी बनाएँ और डाक से भेजें।",
+    pilTitle:"📜 सुप्रीम कोर्ट को पत्र-याचिका (PIL)",
+    pilRule:"सुप्रीम कोर्ट के नियम: न्यूनतम मज़दूरी न मिलना, कैज़ुअल मज़दूरों का शोषण, लेबर क़ानून तोड़ना और बंधुआ मज़दूरी — ये मामले PIL में लिए जाते हैं, पर <b>किसी एक व्यक्ति का मामला नहीं</b>। नौकरी (सर्विस), पेंशन और ग्रेच्युटी के मामले PIL में नहीं लिए जाते। पहले ऊपर का शिकायत फ़ॉर्म भरें।",
+    pilWorkersPh:"कितने मज़दूर प्रभावित हैं? (जैसे 40)", pilBtn:"📜 PIL चिट्ठी तैयार करें",
+    pilNeed:"⚠️ पहले ऊपर राज्य और क्या हुआ लिखें, और मज़दूरों की गिनती (2 या ज़्यादा) डालें।",
+    pilReady:"✅ PIL चिट्ठी तैयार है — ख़ाली जगह भरें, साइन करें और रजिस्टर्ड डाक से भेजें", pilPrint:"🖨️ प्रिंट करें",
+    pilNote:"📮 पता: Registrar (PIL Cell), Supreme Court of India, Tilak Marg, New Delhi – 110001। कोर्ट में बिना नाम-पते की चिट्ठी पर आमतौर पर कार्रवाई नहीं होती, इसलिए यहाँ अपना नाम देना पड़ता है। यह चिट्ठी सिर्फ़ आपके फ़ोन में बनी है।",
+  });
+  Object.assign(T.en, {
+    bigTitle:"⚖️ Bigger matter? Take it higher", bigSub:"Go in this order — keep written proof of every step (complaint number, stamped copy); the next step asks for it.",
+    big1:"<b>District Labour Office</b> — hand in the letter made above and get a <b>stamped copy</b>, or get a complaint number on the SAMADHAN portal.",
+    big2cm:n => `<b>Chief Minister helpline ${n[0]}</b> — call, or <a href="${n[1]}" target="_blank" rel="noopener">complain online ↗</a>; it goes straight to senior officers.`,
+    big2:'<b>Central Govt grievance portal (CPGRAMS)</b> — <a href="https://pgportal.gov.in/" target="_blank" rel="noopener">pgportal.gov.in ↗</a>; it reaches the ministry and is tracked by number.',
+    big3:'<b>Bonded labour / severe abuse</b> — National Human Rights Commission (NHRC) <a href="https://hrcnet.nic.in/HRCNet/public/webcomplaint.aspx" target="_blank" rel="noopener">online complaint ↗</a>.',
+    big4:'<b>Free government lawyer — <a href="tel:15100">15100</a> (NALSA)</b> — a case in the Labour Court or High Court at no cost.',
+    big5:"<b>Supreme Court (PIL)</b> — only for matters of <b>many workers</b>: make the letter below and send it by post.",
+    pilTitle:"📜 Letter petition (PIL) to the Supreme Court",
+    pilRule:"Supreme Court rules: non-payment of minimum wages, exploitation of casual workers, violation of labour laws and bonded labour are taken as PIL — but <b>not individual cases</b>. Service, pension and gratuity matters are not taken as PIL. Fill the complaint form above first.",
+    pilWorkersPh:"How many workers are affected? (e.g. 40)", pilBtn:"📜 Make the PIL letter",
+    pilNeed:"⚠️ First choose the state and write what happened above, and enter the number of workers (2 or more).",
+    pilReady:"✅ PIL letter ready — fill the blanks, sign it and send it by registered post", pilPrint:"🖨️ Print",
+    pilNote:"📮 Address: Registrar (PIL Cell), Supreme Court of India, Tilak Marg, New Delhi – 110001. Courts usually do not act on letters without a name and address, so your name is needed here. This letter is made only on your phone.",
+  });
   T.hi.staticOff ="⏳ यह सुविधा जल्द आ रही है। अभी शिकायत के लिए समाधान पोर्टल (samadhan.labour.gov.in) या अपने ज़िले का लेबर ऑफ़िस इस्तेमाल करें।";
   T.en.staticOff = "⏳ This feature is coming soon. For now, use the SAMADHAN portal (samadhan.labour.gov.in) or your district Labour Office.";
   let LANG = 'hi';
@@ -251,7 +285,7 @@
     document.querySelectorAll('[data-t]').forEach(el => el.innerHTML = t(el.dataset.t));
     document.querySelectorAll('[data-tp]').forEach(el => el.placeholder = t(el.dataset.tp));
     document.getElementById('langBtn').textContent = LANG === 'en' ? 'हिं' : 'EN';
-    renderTiles(); fillStates(); loadRights(); renderPortal();
+    renderTiles(); fillStates(); loadRights(); renderPortal(); renderBigCase();
     if (STATIC) {                     // no server: the complaint becomes a ready letter (letterReport); slip check is off
       document.getElementById('slipStatus').textContent = t('staticOff');
       document.getElementById('scanSlipBtn').disabled = true;
@@ -432,7 +466,7 @@
 
   // ---- report (anonymous)
   function prefillReport() {
-    if (st.stateId) { document.getElementById('reportState').value = st.stateId; fillDistricts(); }
+    if (st.stateId) { document.getElementById('reportState').value = st.stateId; fillDistricts(); renderBigCase(); }
     const m = document.getElementById('reportMessage');
     if (!m.value && problemName()) m.value = t('iAm') + workName() + t('iAmEnd') + problemName() + '.';
   }
@@ -459,11 +493,47 @@
       <button class="big light" type="button" data-go="help">${t('letterOffice')}</button>
       <div class="note">${t('letterNote')}</div></div>`;
   }
-  async function copyLetter() {
-    const txt = document.getElementById('letterText').textContent;
+  async function copyLetter(id = 'letterText') {
+    const txt = document.getElementById(id).textContent;
     try { await navigator.clipboard.writeText(txt); alert(t('letterCopied')); }
-    catch (e) { const r = document.createRange(); r.selectNodeContents(document.getElementById('letterText'));
+    catch (e) { const r = document.createRange(); r.selectNodeContents(document.getElementById(id));
                 const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+  }
+  function renderBigCase() {
+    const cm = CM_HELP[document.getElementById('reportState').value];
+    document.getElementById('bigLadder').innerHTML = [t('big1'), cm ? T[LANG].big2cm(cm) : t('big2'), t('big3'), t('big4'), t('big5')]
+      .map(x => `<li>${x}</li>`).join('');
+  }
+  function pilLetter() {
+    const stateId = document.getElementById('reportState').value, message = document.getElementById('reportMessage').value.trim();
+    const district = document.getElementById('reportDistrict').value.trim().slice(0, 60), company = document.getElementById('reportCompany').value.trim();
+    const n = parseInt(document.getElementById('pilWorkers').value, 10), out = document.getElementById('pilStatus');
+    if (!stateId || !message || !(n >= 2)) { out.innerHTML = `<div class="status">${t('pilNeed')}</div>`; return; }
+    const s = STATES.find(x => x.id === stateId), where = (district ? district + ', ' : '') + stateName(s);
+    const today = new Date().toLocaleDateString(LANG === 'en' ? 'en-IN' : 'hi-IN');
+    const text = (LANG === 'en' ? [
+      'To,\nThe Registrar (PIL Cell),\nSupreme Court of India, Tilak Marg, New Delhi – 110001',
+      `Subject: Letter petition (PIL) — violation of labour laws / non-payment of minimum wages to about ${n} workers${company ? ' at ' + company : ''}, ${where}`,
+      'Respected Sir / Madam,',
+      `About ${n} workers working${company ? ' at ' + company : ''} in ${where} are facing the following:\n${message}`,
+      'We have complained to the Labour Department: ________ (date and complaint number). No action has been taken so far.',
+      'We humbly request that this letter be treated as a Public Interest Litigation and suitable directions be given.',
+      'Name: ____________   Address: ____________\nPhone: ____________   Signature: ____________',
+      `Date: ${today}`,
+    ] : [
+      'सेवा में,\nरजिस्ट्रार (PIL सेल),\nभारत का सर्वोच्च न्यायालय, तिलक मार्ग, नई दिल्ली – 110001',
+      `विषय: ${company ? company + ' में ' : ''}लगभग ${n} मज़दूरों के साथ श्रम क़ानून का उल्लंघन / न्यूनतम मज़दूरी न मिलना — ${where} — पत्र-याचिका (PIL)`,
+      'माननीय महोदय / महोदया,',
+      `${where} में ${company ? company + ' में ' : ''}काम करने वाले लगभग ${n} मज़दूरों के साथ यह हो रहा है:\n${message}`,
+      'हमने इसकी शिकायत श्रम विभाग में की है: ________ (तारीख़ और शिकायत नंबर)। अब तक कोई कार्रवाई नहीं हुई।',
+      'आपसे विनम्र निवेदन है कि इस पत्र को जनहित याचिका मानकर उचित निर्देश देने की कृपा करें।',
+      'नाम: ____________   पता: ____________\nफ़ोन: ____________   हस्ताक्षर: ____________',
+      `तारीख़: ${today}`,
+    ]).join('\n\n');
+    out.innerHTML = `<h2 style="margin-top:1rem">${t('pilReady')}</h2><div class="letter" id="pilText">${esc(text)}</div>
+      <div class="row2"><button class="big" type="button" data-act="copyPil">${t('letterCopy')}</button>
+        <button class="big light" type="button" data-act="printPil">${t('pilPrint')}</button></div>
+      <div class="note">${t('pilNote')}</div>`;
   }
   // district suggestions for the chosen state (public/districts.json; any other name can be typed)
   let DISTRICTS = null;
@@ -472,7 +542,7 @@
     try { DISTRICTS = DISTRICTS || await getJSON(STATIC ? 'districts.json' : '/districts.json'); } catch (e) { DISTRICTS = {}; }
     document.getElementById(listId).innerHTML = (DISTRICTS[id] || []).map(d => `<option value="${esc(d)}"></option>`).join('');
   }
-  document.getElementById('reportState').addEventListener('change', () => { document.getElementById('reportDistrict').value = ''; fillDistricts(); });
+  document.getElementById('reportState').addEventListener('change', () => { document.getElementById('reportDistrict').value = ''; fillDistricts(); renderBigCase(); });
   // help: district labour office on the map (Google Maps search shows the current address + phone; we store no numbers)
   function showHelpDistrict() {
     const d = document.getElementById('helpDistrict').value.trim().slice(0, 60), box = document.getElementById('helpDistrictBox');
@@ -522,6 +592,9 @@
     showAnswer: () => showAnswer(),
     speakGuide: () => speak(GUIDE_TEXT),
     copyLetter: () => copyLetter(),
+    pilLetter: () => pilLetter(),
+    copyPil: () => copyLetter('pilText'),
+    printPil: () => window.print(),
     startSteps: () => { restart(); scrollToId('startHere'); },
     allRights: () => {
       scrollToId('rightsList');

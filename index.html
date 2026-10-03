@@ -209,6 +209,8 @@
   .right .more { margin-top:.5rem; min-height:46px; font-size:.98rem; }
   .section-title { margin:1.6rem 0 .2rem; }
   .offices a { display:block; padding:.6rem .75rem; margin-top:.45rem; border:1px solid var(--line); border-radius:12px; text-decoration:none; color:var(--navy-2); font-weight:700; background:#fbfcfe; }
+  .bigcase { border-top:5px solid #f59e0b; }
+  .bigcase .steps-list a { color:var(--primary-dark); font-weight:800; }
   .lawq { border:2px solid #f2c94c; background:#fffdf3; }
   .lawq .src { font-size:.85rem; color:var(--muted); margin:.1rem 0 .5rem; }
   .lawq .official { font-family:Georgia, serif; font-size:.92rem; line-height:1.55; color:#2c3a52; background:#fff; border-left:4px solid var(--navy-2); padding:.6rem .75rem; border-radius:8px; }
@@ -227,8 +229,8 @@
   .letter { white-space:pre-wrap; font-family:'Noto Sans Devanagari', Inter, sans-serif; font-size:.95rem; line-height:1.6; background:#fff; border:1px solid var(--line); border-radius:10px; padding:.9rem; margin:.6rem 0; overflow-wrap:anywhere; }
   @media print {
     body * { visibility:hidden !important; }
-    #d-letter, #d-letter * { visibility:visible !important; }
-    #d-letter { position:absolute; left:0; top:0; width:100%; border:0; padding:0; font-size:12pt; }
+    #d-letter, #d-letter *, #pilText, #pilText * { visibility:visible !important; }
+    #d-letter, #pilText { position:absolute; left:0; top:0; width:100%; border:0; padding:0; font-size:12pt; }
   }
   footer { max-width:1240px; margin:1.4rem auto 0; padding:0 1rem 1rem; color:var(--muted); font-size:.82rem; text-align:center; }
 
@@ -398,6 +400,18 @@
     <button class="big light" id="micReport" type="button" data-t="speak"></button>
     <button class="big" id="reportBtn" type="button" data-t="sendReport"></button>
     <div class="status" id="reportStatus"></div>
+
+    <!-- bigger matter: escalation ladder + Supreme Court PIL letter (many workers only; built on the phone, sent by post) -->
+    <div class="card bigcase">
+      <h2 data-t="bigTitle"></h2>
+      <p class="sub" style="margin:0 0 .4rem" data-t="bigSub"></p>
+      <ol class="steps-list" id="bigLadder"></ol>
+      <h2 style="margin-top:1rem" data-t="pilTitle"></h2>
+      <div class="note" style="margin-top:.2rem" data-t="pilRule"></div>
+      <input type="text" id="pilWorkers" inputmode="numeric" data-tp="pilWorkersPh" style="margin-top:.6rem" />
+      <button class="big" type="button" data-act="pilLetter" data-t="pilBtn"></button>
+      <div id="pilStatus"></div>
+    </div>
   </section>
 
   <!-- SLIP -->
