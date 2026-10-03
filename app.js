@@ -136,7 +136,7 @@
     ["factory","Fabrics for Freedom","CC BY 2.0","https://creativecommons.org/licenses/by/2.0/","https://commons.wikimedia.org/wiki/File:India_textile_fashion_industry_workers.jpg"],
   ];
   Object.assign(T.hi, {
-    letterSub:"आपका नाम या फ़ोन नंबर <b>नहीं</b> माँगा जाएगा। नीचे लिखिए — आपकी शिकायत की चिट्ठी तुरंत तैयार हो जाएगी, जिसे आप समाधान पोर्टल या लेबर ऑफ़िस में दे सकते हैं, या WhatsApp पर भेज सकते हैं।",
+    letterSub:"आपका नाम या फ़ोन नंबर <b>नहीं</b> माँगा जाएगा। बस नीचे 4 सवालों पर दबाएँ — शिकायत की चिट्ठी अपने-आप बन जाएगी।",
     districtPh:"ज़िला — लिस्ट से चुनें या ख़ुद लिखें", mapOffice:"📍 नक्शे पर ज़िले का लेबर ऑफ़िस (पता और फ़ोन)",
     mapNote:"पता और फ़ोन नंबर Google Maps से आते हैं। जाने या फ़ोन करने से पहले पक्का कर लें कि वह सरकारी श्रम कार्यालय ही है।", letterBtn:"📝 शिकायत की चिट्ठी तैयार करें", letterReady:"✅ आपकी शिकायत की चिट्ठी तैयार है", letterCopy:"📋 कॉपी करें",
     letterWa:"💬 WhatsApp पर भेजें", letterSamadhan:"🌐 समाधान पोर्टल पर शिकायत करें ↗", letterOffice:"🏛️ अपने राज्य का लेबर ऑफ़िस / हेल्पलाइन",
@@ -144,7 +144,7 @@
     letterNote:"🔒 यह चिट्ठी सिर्फ़ आपके फ़ोन में बनी है — हमारे पास कुछ नहीं भेजा या सेव किया गया। पोर्टल पर शिकायत करते समय अपना नाम देना है या नहीं, यह आप तय करें।",
   });
   Object.assign(T.en, {
-    letterSub:"Your name or phone number will <b>not</b> be asked. Write below — your complaint letter is made at once; give it on the SAMADHAN portal or at the Labour Office, or send it on WhatsApp.",
+    letterSub:"Your name or phone number will <b>not</b> be asked. Just tap the 4 questions below — the complaint letter is written for you.",
     districtPh:"District — pick from the list or type it", mapOffice:"📍 District Labour Office on the map (address and phone)",
     mapNote:"Address and phone come from Google Maps. Before going or calling, make sure it is the government labour office.", letterBtn:"📝 Make my complaint letter", letterReady:"✅ Your complaint letter is ready", letterCopy:"📋 Copy",
     letterWa:"💬 Send on WhatsApp", letterSamadhan:"🌐 Complain on the SAMADHAN portal ↗", letterOffice:"🏛️ Your state's Labour Office / helpline",
@@ -156,13 +156,6 @@
   // casual workers, bonded labour - "except in individual cases"; service, pension and gratuity matters are NOT taken.
   const CM_HELP = { mp:['181','https://cmhelpline.mp.gov.in/'], up:['1076','https://jansunwai.up.nic.in/'] };
   Object.assign(T.hi, {
-    bigTitle:"⚖️ बड़ा मामला? बात ऊपर तक पहुँचाएँ", bigSub:"इसी क्रम में चलें — हर कदम का लिखित सबूत (शिकायत नंबर, मुहर लगी कॉपी) सँभालकर रखें, अगले कदम पर काम आता है।",
-    big1:"<b>ज़िले का लेबर ऑफ़िस</b> — ऊपर बनी चिट्ठी देकर <b>मुहर लगी कॉपी</b> लें, या समाधान पोर्टल पर शिकायत नंबर लें।",
-    big2cm:n => `<b>मुख्यमंत्री हेल्पलाइन ${n[0]}</b> पर फ़ोन करें या <a href="${n[1]}" target="_blank" rel="noopener">ऑनलाइन शिकायत ↗</a> — शिकायत सीधे बड़े अफ़सरों तक जाती है।`,
-    big2:'<b>केंद्र सरकार का शिकायत पोर्टल (CPGRAMS)</b> — <a href="https://pgportal.gov.in/" target="_blank" rel="noopener">pgportal.gov.in ↗</a>, शिकायत मंत्रालय तक जाती है और नंबर से ट्रैक होती है।',
-    big3:'<b>बंधुआ मज़दूरी / बहुत ज़्यादा ज़ुल्म</b> — राष्ट्रीय मानवाधिकार आयोग (NHRC) में <a href="https://hrcnet.nic.in/HRCNet/public/webcomplaint.aspx" target="_blank" rel="noopener">ऑनलाइन शिकायत ↗</a>।',
-    big4:'<b>मुफ़्त सरकारी वकील — <a href="tel:15100">15100</a> (NALSA)</b> — लेबर कोर्ट या हाई कोर्ट में केस मुफ़्त में।',
-    big5:"<b>सुप्रीम कोर्ट (PIL)</b> — सिर्फ़ <b>कई मज़दूरों</b> का मामला: नीचे चिट्ठी बनाएँ और डाक से भेजें।",
     pilTitle:"📜 सुप्रीम कोर्ट को पत्र-याचिका (PIL)",
     pilRule:"सुप्रीम कोर्ट के नियम: न्यूनतम मज़दूरी न मिलना, कैज़ुअल मज़दूरों का शोषण, लेबर क़ानून तोड़ना और बंधुआ मज़दूरी — ये मामले PIL में लिए जाते हैं, पर <b>किसी एक व्यक्ति का मामला नहीं</b>। नौकरी (सर्विस), पेंशन और ग्रेच्युटी के मामले PIL में नहीं लिए जाते। पहले ऊपर का शिकायत फ़ॉर्म भरें।",
     pilWorkersPh:"कितने मज़दूर प्रभावित हैं? (जैसे 40)", pilBtn:"📜 PIL चिट्ठी तैयार करें",
@@ -171,19 +164,41 @@
     pilNote:"📮 पता: Registrar (PIL Cell), Supreme Court of India, Tilak Marg, New Delhi – 110001। कोर्ट में बिना नाम-पते की चिट्ठी पर आमतौर पर कार्रवाई नहीं होती, इसलिए यहाँ अपना नाम देना पड़ता है। यह चिट्ठी सिर्फ़ आपके फ़ोन में बनी है।",
   });
   Object.assign(T.en, {
-    bigTitle:"⚖️ Bigger matter? Take it higher", bigSub:"Go in this order — keep written proof of every step (complaint number, stamped copy); the next step asks for it.",
-    big1:"<b>District Labour Office</b> — hand in the letter made above and get a <b>stamped copy</b>, or get a complaint number on the SAMADHAN portal.",
-    big2cm:n => `<b>Chief Minister helpline ${n[0]}</b> — call, or <a href="${n[1]}" target="_blank" rel="noopener">complain online ↗</a>; it goes straight to senior officers.`,
-    big2:'<b>Central Govt grievance portal (CPGRAMS)</b> — <a href="https://pgportal.gov.in/" target="_blank" rel="noopener">pgportal.gov.in ↗</a>; it reaches the ministry and is tracked by number.',
-    big3:'<b>Bonded labour / severe abuse</b> — National Human Rights Commission (NHRC) <a href="https://hrcnet.nic.in/HRCNet/public/webcomplaint.aspx" target="_blank" rel="noopener">online complaint ↗</a>.',
-    big4:'<b>Free government lawyer — <a href="tel:15100">15100</a> (NALSA)</b> — a case in the Labour Court or High Court at no cost.',
-    big5:"<b>Supreme Court (PIL)</b> — only for matters of <b>many workers</b>: make the letter below and send it by post.",
     pilTitle:"📜 Letter petition (PIL) to the Supreme Court",
     pilRule:"Supreme Court rules: non-payment of minimum wages, exploitation of casual workers, violation of labour laws and bonded labour are taken as PIL — but <b>not individual cases</b>. Service, pension and gratuity matters are not taken as PIL. Fill the complaint form above first.",
     pilWorkersPh:"How many workers are affected? (e.g. 40)", pilBtn:"📜 Make the PIL letter",
     pilNeed:"⚠️ First choose the state and write what happened above, and enter the number of workers (2 or more).",
     pilReady:"✅ PIL letter ready — fill the blanks, sign it and send it by registered post", pilPrint:"🖨️ Print",
     pilNote:"📮 Address: Registrar (PIL Cell), Supreme Court of India, Tilak Marg, New Delhi – 110001. Courts usually do not act on letters without a name and address, so your name is needed here. This letter is made only on your phone.",
+  });
+  // tap-first complaint page (3 Oct 2026)
+  Object.assign(T.hi, {
+    rq1:"क्या हुआ? (दबाएँ)", rq2:"कब से?", rq3:"कितने लोगों के साथ?", rq4:"कहाँ? (राज्य, ज़िला, कंपनी)", rqMore:"✍️ अपने शब्दों में और लिखना है? (चाहें तो)",
+    since:["इसी महीने","1-2 महीने से","3-6 महीने से","6 महीने से ज़्यादा"],
+    people:["सिर्फ़ मेरे साथ","2-10 लोगों के साथ","10 से ज़्यादा लोगों के साथ"],
+    msgProblem:"मेरी परेशानी: ", msgSince:"यह {x} हो रहा है।", msgPeople:["","मेरे साथ काम करने वाले 2-10 लोगों के साथ भी यही हो रहा है।","मेरे साथ काम करने वाले 10 से ज़्यादा लोगों के साथ भी यही हो रहा है।"],
+    nextTitle:"👉 अब आगे क्या करें?", nextQ:"क्या आपने पहले कहीं शिकायत की है?",
+    before:["अभी कहीं नहीं","लेबर ऑफ़िस / पोर्टल में की — 30 दिन में कुछ नहीं हुआ","वहाँ भी और ऊपर भी — फिर भी कुछ नहीं हुआ"],
+    n0t:"पहला कदम: ज़िले के लेबर ऑफ़िस में शिकायत", n0:"ऊपर बनी चिट्ठी प्रिंट करके / लिखकर लेबर ऑफ़िस में दें और <b>मुहर लगी कॉपी</b> लें। या समाधान पोर्टल पर ऑनलाइन शिकायत करें और <b>शिकायत नंबर</b> सँभालें।",
+    n0a:"🌐 समाधान पोर्टल खोलें ↗", n0b:"📍 ज़िले का लेबर ऑफ़िस (नक्शा)",
+    n1t:"अगला कदम: मुख्यमंत्री / केंद्र सरकार तक", n1cm:x => `मुख्यमंत्री हेल्पलाइन <b>${x}</b> पर फ़ोन करें — अपना पुराना शिकायत नंबर बताएँ।`,
+    n1:"केंद्र सरकार के शिकायत पोर्टल (CPGRAMS) पर शिकायत करें — पुराना शिकायत नंबर लिखें।", n1call:x => `📞 ${x} पर फ़ोन करें`, n1web:"🌐 ऑनलाइन शिकायत ↗",
+    n2t:"अगला कदम: मुफ़्त सरकारी वकील", n2:"<b>15100</b> पर फ़ोन करें — सरकारी वकील मुफ़्त में लेबर कोर्ट / हाई कोर्ट में केस करेगा। बंधुआ मज़दूरी या मारपीट जैसा ज़ुल्म हो तो NHRC में भी शिकायत करें।",
+    n2call:"📞 15100 पर मुफ़्त फ़ोन", n2nhrc:"🛡️ NHRC में शिकायत ↗",
+  });
+  Object.assign(T.en, {
+    rq1:"What happened? (tap)", rq2:"Since when?", rq3:"With how many people?", rq4:"Where? (state, district, company)", rqMore:"✍️ Want to add more in your own words? (optional)",
+    since:["This month","For 1-2 months","For 3-6 months","For more than 6 months"],
+    people:["Only me","2-10 people","More than 10 people"],
+    msgProblem:"My problem: ", msgSince:"This has been happening {x}.", msgPeople:["","The same is happening to 2-10 people who work with me.","The same is happening to more than 10 people who work with me."],
+    nextTitle:"👉 What to do next?", nextQ:"Have you complained anywhere before?",
+    before:["Not yet","Yes, Labour Office / portal — nothing in 30 days","There and higher too — still nothing"],
+    n0t:"First step: complaint at the district Labour Office", n0:"Print / write the letter above, give it at the Labour Office and get a <b>stamped copy</b>. Or complain on the SAMADHAN portal and keep the <b>complaint number</b>.",
+    n0a:"🌐 Open SAMADHAN portal ↗", n0b:"📍 District Labour Office (map)",
+    n1t:"Next step: Chief Minister / Central Government", n1cm:x => `Call the Chief Minister helpline <b>${x}</b> and give your old complaint number.`,
+    n1:"Complain on the Central Government grievance portal (CPGRAMS) with your old complaint number.", n1call:x => `📞 Call ${x}`, n1web:"🌐 Complain online ↗",
+    n2t:"Next step: free government lawyer", n2:"Call <b>15100</b> — a government lawyer takes the case to the Labour Court / High Court for free. For bonded labour or violence, also complain to the NHRC.",
+    n2call:"📞 Call 15100 free", n2nhrc:"🛡️ Complain to NHRC ↗",
   });
   T.hi.staticOff ="⏳ यह सुविधा जल्द आ रही है। अभी शिकायत के लिए समाधान पोर्टल (samadhan.labour.gov.in) या अपने ज़िले का लेबर ऑफ़िस इस्तेमाल करें।";
   T.en.staticOff = "⏳ This feature is coming soon. For now, use the SAMADHAN portal (samadhan.labour.gov.in) or your district Labour Office.";
@@ -285,7 +300,7 @@
     document.querySelectorAll('[data-t]').forEach(el => el.innerHTML = t(el.dataset.t));
     document.querySelectorAll('[data-tp]').forEach(el => el.placeholder = t(el.dataset.tp));
     document.getElementById('langBtn').textContent = LANG === 'en' ? 'हिं' : 'EN';
-    renderTiles(); fillStates(); loadRights(); renderPortal(); renderBigCase();
+    renderTiles(); fillStates(); loadRights(); renderPortal(); renderReportChips(); renderNext();
     if (STATIC) {                     // no server: the complaint becomes a ready letter (letterReport); slip check is off
       document.getElementById('slipStatus').textContent = t('staticOff');
       document.getElementById('scanSlipBtn').disabled = true;
@@ -340,6 +355,7 @@
     if (saved && STATES.some(s => s.id === saved)) setState(saved);
     fillStates();
     fillDistricts(); fillDistricts('helpState', 'helpDistrictList');
+    try { const d = localStorage.getItem('district') || ''; if (d && st.stateId) document.getElementById('reportDistrict').value = d; } catch (x) {}
   }
   function setState(id) {
     const s = STATES.find(x => x.id === id);
@@ -466,9 +482,51 @@
 
   // ---- report (anonymous)
   function prefillReport() {
-    if (st.stateId) { document.getElementById('reportState').value = st.stateId; fillDistricts(); renderBigCase(); }
+    if (st.stateId) { document.getElementById('reportState').value = st.stateId; fillDistricts(); renderNext(); }
+    if (st.problem >= 0) rp.problem = st.problem;
     const m = document.getElementById('reportMessage');
-    if (!m.value && problemName()) m.value = t('iAm') + workName() + t('iAmEnd') + problemName() + '.';
+    if (!m.value && st.problem < 0 && problemName()) m.value = t('iAm') + workName() + t('iAmEnd') + problemName() + '.';
+    else composeMessage();
+    renderReportChips();
+  }
+  // ---- tap-first complaint: chips write the message; state + district remembered; one next step at a time
+  const rp = { problem:-1, since:-1, people:-1, before:-1, auto:'' };
+  function chipRow(id, labels, sel, onPick) {
+    const el = document.getElementById(id);
+    el.innerHTML = labels.map((x, k) => `<button class="chip${k === sel ? ' on' : ''}" type="button">${esc(x)}</button>`).join('');
+    el.querySelectorAll('.chip').forEach((b, k) => b.addEventListener('click', () => onPick(k)));
+  }
+  function renderReportChips() {
+    chipRow('rpProblem', PROBLEMS.map(p => p[0] + ' ' + p[L()]), rp.problem, k => { rp.problem = k; composeMessage(); renderReportChips(); });
+    chipRow('rpSince', t('since'), rp.since, k => { rp.since = k; composeMessage(); renderReportChips(); });
+    chipRow('rpPeople', t('people'), rp.people, k => { rp.people = k; composeMessage(); renderReportChips(); renderNext(); });
+    chipRow('rpBefore', t('before'), rp.before, k => { rp.before = k; renderReportChips(); renderNext(); });
+  }
+  function composeMessage() {
+    const m = document.getElementById('reportMessage');
+    if (m.value.trim() && m.value !== rp.auto) return;          // the worker wrote their own words - keep them
+    const parts = [];
+    if (st.work >= 0) parts.push(t('iAm') + workName() + t('iAmEnd').trim());
+    if (rp.problem >= 0) parts.push(t('msgProblem') + PROBLEMS[rp.problem][L()] + (LANG === 'en' ? '.' : '।'));
+    if (rp.since >= 0) parts.push(t('msgSince').replace('{x}', t('since')[rp.since].toLowerCase()));
+    if (rp.people > 0) parts.push(t('msgPeople')[rp.people]);
+    rp.auto = m.value = parts.join(' ');
+  }
+  function renderNext() {
+    const box = document.getElementById('nextStep'), sid = document.getElementById('reportState').value;
+    document.getElementById('pilBox').hidden = !(rp.people > 0);
+    if (rp.before < 0) { box.innerHTML = ''; return; }
+    const cm = CM_HELP[sid];
+    const card = (title, body, btns) => `<div class="nextcard"><b class="t">${title}</b>${body}${btns}</div>`;
+    const link = (href, label, cls = 'big') => `<a class="${cls}" href="${href}" target="_blank" rel="noopener">${label}</a>`;
+    box.innerHTML = [
+      card(t('n0t'), t('n0'), link('https://samadhan.labour.gov.in/', t('n0a')) + `<button class="big light" type="button" data-act="helpMap">${t('n0b')}</button>`),
+      card(t('n1t'), cm ? T[LANG].n1cm(cm[0]) : t('n1'),
+           (cm ? `<a class="big green" href="tel:${cm[0]}">${T[LANG].n1call(cm[0])}</a>` + link(cm[1], t('n1web'), 'big light')
+               : link('https://pgportal.gov.in/', t('n1web')))),
+      card(t('n2t'), t('n2'), `<a class="big green" href="tel:15100">${t('n2call')}</a>` +
+           link('https://hrcnet.nic.in/HRCNet/public/webcomplaint.aspx', t('n2nhrc'), 'big light')),
+    ][rp.before];
   }
   // GitHub Pages (no server): build the complaint letter on the phone only - nothing is sent or stored by us
   let lastLetter = null;
@@ -498,11 +556,6 @@
     try { await navigator.clipboard.writeText(txt); alert(t('letterCopied')); }
     catch (e) { const r = document.createRange(); r.selectNodeContents(document.getElementById(id));
                 const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); }
-  }
-  function renderBigCase() {
-    const cm = CM_HELP[document.getElementById('reportState').value];
-    document.getElementById('bigLadder').innerHTML = [t('big1'), cm ? T[LANG].big2cm(cm) : t('big2'), t('big3'), t('big4'), t('big5')]
-      .map(x => `<li>${x}</li>`).join('');
   }
   function pilLetter() {
     const stateId = document.getElementById('reportState').value, message = document.getElementById('reportMessage').value.trim();
@@ -542,7 +595,8 @@
     try { DISTRICTS = DISTRICTS || await getJSON(STATIC ? 'districts.json' : '/districts.json'); } catch (e) { DISTRICTS = {}; }
     document.getElementById(listId).innerHTML = (DISTRICTS[id] || []).map(d => `<option value="${esc(d)}"></option>`).join('');
   }
-  document.getElementById('reportState').addEventListener('change', () => { document.getElementById('reportDistrict').value = ''; fillDistricts(); renderBigCase(); });
+  document.getElementById('reportState').addEventListener('change', e => { setState(e.target.value); document.getElementById('reportDistrict').value = ''; fillDistricts(); renderNext(); });
+  document.getElementById('reportDistrict').addEventListener('change', e => { try { localStorage.setItem('district', e.target.value.trim()); } catch (x) {} });
   // help: district labour office on the map (Google Maps search shows the current address + phone; we store no numbers)
   function showHelpDistrict() {
     const d = document.getElementById('helpDistrict').value.trim().slice(0, 60), box = document.getElementById('helpDistrictBox');
@@ -560,6 +614,7 @@
     const stateId = document.getElementById('reportState').value, message = document.getElementById('reportMessage').value.trim();
     const company = document.getElementById('reportCompany').value.trim(), out = document.getElementById('reportStatus');
     if (!stateId || !message) { out.textContent = t('reportMissing'); return; }
+    try { localStorage.setItem('district', document.getElementById('reportDistrict').value.trim()); } catch (x) {}
     const district = document.getElementById('reportDistrict').value.trim().slice(0, 60);
     if (STATIC) { letterReport({ stateId, district, company, message }); return; }
     const d = await (await fetch('/api/report', { method:'POST', headers:{'Content-Type':'application/json'},
@@ -593,6 +648,7 @@
     speakGuide: () => speak(GUIDE_TEXT),
     copyLetter: () => copyLetter(),
     pilLetter: () => pilLetter(),
+    helpMap: () => { go('help'); const d = document.getElementById('reportDistrict').value.trim(); if (d) { document.getElementById('helpDistrict').value = d; showHelpDistrict(); } },
     copyPil: () => copyLetter('pilText'),
     printPil: () => window.print(),
     startSteps: () => { restart(); scrollToId('startHere'); },

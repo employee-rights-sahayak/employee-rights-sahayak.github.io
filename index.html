@@ -210,6 +210,15 @@
   .section-title { margin:1.6rem 0 .2rem; }
   .offices a { display:block; padding:.6rem .75rem; margin-top:.45rem; border:1px solid var(--line); border-radius:12px; text-decoration:none; color:var(--navy-2); font-weight:700; background:#fbfcfe; }
   .bigcase { border-top:5px solid #f59e0b; }
+  .rq { margin:1.1rem 0 .5rem; font-size:1.08rem; }
+  .chips { display:flex; flex-wrap:wrap; gap:.5rem; }
+  .chip { border:1.5px solid var(--line); background:#fff; border-radius:999px; padding:.55rem .95rem; font-weight:700; font-size:.98rem;
+          cursor:pointer; color:var(--text); min-height:46px; box-shadow:0 1px 2px rgba(16,24,40,.05); }
+  .chip:hover { border-color:var(--sky); }
+  .chip.on { background:var(--primary); border-color:var(--primary); color:#fff; }
+  .more-text { margin-top:.8rem; } .more-text summary { cursor:pointer; font-weight:700; color:var(--primary-dark); padding:.4rem 0; }
+  .nextcard { background:var(--soft); border:1px solid #c5dff6; border-radius:14px; padding:.8rem .9rem; margin-top:.8rem; }
+  .nextcard b.t { display:block; font-size:1.05rem; margin-bottom:.2rem; }
   .bigcase .steps-list a { color:var(--primary-dark); font-weight:800; }
   .lawq { border:2px solid #f2c94c; background:#fffdf3; }
   .lawq .src { font-size:.85rem; color:var(--muted); margin:.1rem 0 .5rem; }
@@ -388,29 +397,46 @@
     <div class="note" data-t="legalAidNote"></div>
   </section>
 
-  <!-- REPORT -->
+  <!-- REPORT (3 Oct 2026, "jitna ho sake utna aasaan"): mostly taps - problem, since when, how many people;
+       state + district remembered; the letter is written for you; then only the NEXT step is shown -->
   <section class="screen" id="s-report">
     <h1 data-t="reportTitle"></h1>
     <p class="sub" data-t="reportSub"></p>
+
+    <h2 class="rq"><span class="n">1</span><span data-t="rq1"></span></h2>
+    <div class="chips" id="rpProblem"></div>
+    <h2 class="rq"><span class="n">2</span><span data-t="rq2"></span></h2>
+    <div class="chips" id="rpSince"></div>
+    <h2 class="rq"><span class="n">3</span><span data-t="rq3"></span></h2>
+    <div class="chips" id="rpPeople"></div>
+
+    <h2 class="rq"><span class="n">4</span><span data-t="rq4"></span></h2>
     <select id="reportState"></select>
     <input type="text" id="reportDistrict" list="districtList" data-tp="districtPh" autocomplete="off" style="margin-top:.6rem" />
     <datalist id="districtList"></datalist>
     <input type="text" id="reportCompany" data-tp="companyPh" style="margin-top:.6rem" />
-    <textarea id="reportMessage" data-tp="reportPh" style="margin-top:.6rem"></textarea>
-    <button class="big light" id="micReport" type="button" data-t="speak"></button>
+
+    <details class="more-text">
+      <summary data-t="rqMore"></summary>
+      <textarea id="reportMessage" data-tp="reportPh" style="margin-top:.6rem"></textarea>
+      <button class="big light" id="micReport" type="button" data-t="speak"></button>
+    </details>
     <button class="big" id="reportBtn" type="button" data-t="sendReport"></button>
     <div class="status" id="reportStatus"></div>
 
-    <!-- bigger matter: escalation ladder + Supreme Court PIL letter (many workers only; built on the phone, sent by post) -->
+    <!-- what next: one question, then only the next step (escalation) -->
     <div class="card bigcase">
-      <h2 data-t="bigTitle"></h2>
-      <p class="sub" style="margin:0 0 .4rem" data-t="bigSub"></p>
-      <ol class="steps-list" id="bigLadder"></ol>
-      <h2 style="margin-top:1rem" data-t="pilTitle"></h2>
-      <div class="note" style="margin-top:.2rem" data-t="pilRule"></div>
-      <input type="text" id="pilWorkers" inputmode="numeric" data-tp="pilWorkersPh" style="margin-top:.6rem" />
-      <button class="big" type="button" data-act="pilLetter" data-t="pilBtn"></button>
-      <div id="pilStatus"></div>
+      <h2 data-t="nextTitle"></h2>
+      <p class="sub" style="margin:0 0 .5rem" data-t="nextQ"></p>
+      <div class="chips" id="rpBefore"></div>
+      <div id="nextStep"></div>
+      <div id="pilBox" hidden>
+        <h2 style="margin-top:1rem" data-t="pilTitle"></h2>
+        <div class="note" style="margin-top:.2rem" data-t="pilRule"></div>
+        <input type="text" id="pilWorkers" inputmode="numeric" data-tp="pilWorkersPh" style="margin-top:.6rem" />
+        <button class="big" type="button" data-act="pilLetter" data-t="pilBtn"></button>
+        <div id="pilStatus"></div>
+      </div>
     </div>
   </section>
 
