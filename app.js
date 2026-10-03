@@ -225,6 +225,21 @@
   });
   // usual skill level for each WORK tile (index -> 0 unskilled, 1 semi, 2 skilled); "Other" -> none
   const WORK_SKILL = [2, 0, 2, 2, 2, 2, 0, 0, 0, 2, 1, 2, 1, 2, 2, 1, 0, -1];
+  // company check (3 Oct 2026): there is no public data on a company's own policies; what IS public and live is
+  // whether it deposits PF - EPFO establishment search (needs a captcha, so the worker opens it; we only link)
+  const EPFO_EST = 'https://unifiedportal-emp.epfindia.gov.in/publicPortal/no-auth/misReport/home/loadEstSearchHome';
+  Object.assign(T.hi, {
+    coTitle:"🔎 कंपनी PF जमा करती है या नहीं? (सरकारी, लाइव)",
+    coSteps:["नीचे बटन दबाएँ — EPFO की सरकारी वेबसाइट खुलेगी।","\"Name of Establishment\" में कंपनी का नाम (या उसका हिस्सा) लिखें, कैप्चा भरें, Search दबाएँ।","अपनी कंपनी के आगे <b>View Payment Details</b> दबाएँ — देखें आख़िरी बार किस महीने और कितने लोगों का PF जमा हुआ। कई महीने से कुछ नहीं, या लोग बहुत कम दिखें, तो PF की शिकायत बनती है।"],
+    coBtn:"🔎 EPFO पर कंपनी खोजें ↗", coMine:"🏦 अपना PF पासबुक देखें (UAN से) ↗",
+    coNote:"कंपनी की अंदर की पॉलिसी (छुट्टी, ओवरटाइम, बोनस) कहीं सरकारी तौर पर नहीं छपती — वह आपके नियुक्ति पत्र / स्टैंडिंग ऑर्डर में होती है। उसकी कॉपी माँगना आपका हक़ है।",
+  });
+  Object.assign(T.en, {
+    coTitle:"🔎 Does the company deposit PF? (official, live)",
+    coSteps:["Tap the button below — the official EPFO website opens.","Type the company name (or part of it) in \"Name of Establishment\", fill the captcha, tap Search.","Tap <b>View Payment Details</b> for your company — see the last month PF was paid and for how many people. Nothing for months, or far fewer people than work there, means a PF complaint."],
+    coBtn:"🔎 Search the company on EPFO ↗", coMine:"🏦 See my own PF passbook (with UAN) ↗",
+    coNote:"A company's own policies (leave, overtime, bonus) are not published officially — they are in your appointment letter / standing orders. You have the right to ask for a copy.",
+  });
   T.hi.staticOff ="⏳ यह सुविधा जल्द आ रही है। अभी शिकायत के लिए समाधान पोर्टल (samadhan.labour.gov.in) या अपने ज़िले का लेबर ऑफ़िस इस्तेमाल करें।";
   T.en.staticOff = "⏳ This feature is coming soon. For now, use the SAMADHAN portal (samadhan.labour.gov.in) or your district Labour Office.";
   let LANG = 'hi';
@@ -325,7 +340,7 @@
     document.querySelectorAll('[data-t]').forEach(el => el.innerHTML = t(el.dataset.t));
     document.querySelectorAll('[data-tp]').forEach(el => el.placeholder = t(el.dataset.tp));
     document.getElementById('langBtn').textContent = LANG === 'en' ? 'हिं' : 'EN';
-    renderTiles(); fillStates(); loadRights(); renderPortal(); renderReportChips(); renderNext();
+    renderTiles(); fillStates(); loadRights(); renderPortal(); renderReportChips(); renderNext(); coCheck('coCheckReport', false);
     if (STATIC) {                     // no server: the complaint becomes a ready letter (letterReport); slip check is off
       document.getElementById('slipStatus').textContent = t('staticOff');
       document.getElementById('scanSlipBtn').disabled = true;
@@ -432,6 +447,8 @@
       .map(x => `<span class="tag">${esc(x)}</span>`).join('');
     document.getElementById('helplineBox').innerHTML = callBtn(st.helpline) + officesCard(s);
     wageCard('wageBox', st.stateId);
+    if (['pf', 'salary', 'minwage', 'contractor', 'gratuity', 'bonus'].includes(st.problemId)) coCheck('coCheckAnswer', st.problemId === 'pf');
+    else document.getElementById('coCheckAnswer').innerHTML = '';
     document.body.dataset.bg = { safety:'safety', injury:'safety', overtime:'clock', hours:'clock', leave:'clock' }[st.problemId] || '';
     const box = document.getElementById('guide'); box.textContent = t('loading');
     let g;
@@ -514,6 +531,13 @@
     if (!m.value && st.problem < 0 && problemName()) m.value = t('iAm') + workName() + t('iAmEnd') + problemName() + '.';
     else composeMessage();
     renderReportChips();
+  }
+  function coCheck(boxId, open) {
+    document.getElementById(boxId).innerHTML = `<details class="card" ${open ? 'open' : ''} style="margin-top:.7rem"><summary style="cursor:pointer"><b>${t('coTitle')}</b></summary>
+      <ol class="steps-list" style="margin-top:.5rem">${t('coSteps').map(x => `<li>${x}</li>`).join('')}</ol>
+      <a class="big" href="${EPFO_EST}" target="_blank" rel="noopener">${t('coBtn')}</a>
+      <a class="big light" href="https://passbook.epfindia.gov.in/" target="_blank" rel="noopener">${t('coMine')}</a>
+      <div class="note">${t('coNote')}</div></details>`;
   }
   // ---- minimum wage card + check (answer page and help page)
   let WAGES = null;
