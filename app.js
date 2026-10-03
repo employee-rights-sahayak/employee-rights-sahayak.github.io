@@ -135,6 +135,20 @@
     ["women","Ramesh Lalwani","CC BY 2.0","https://creativecommons.org/licenses/by/2.0/","https://commons.wikimedia.org/wiki/File:Women_construction_workers_from_Jhansi_and_Sagar.jpg"],
     ["factory","Fabrics for Freedom","CC BY 2.0","https://creativecommons.org/licenses/by/2.0/","https://commons.wikimedia.org/wiki/File:India_textile_fashion_industry_workers.jpg"],
   ];
+  Object.assign(T.hi, {
+    letterSub:"आपका नाम या फ़ोन नंबर <b>नहीं</b> माँगा जाएगा। नीचे लिखिए — आपकी शिकायत की चिट्ठी तुरंत तैयार हो जाएगी, जिसे आप समाधान पोर्टल या लेबर ऑफ़िस में दे सकते हैं, या WhatsApp पर भेज सकते हैं।",
+    letterBtn:"📝 शिकायत की चिट्ठी तैयार करें", letterReady:"✅ आपकी शिकायत की चिट्ठी तैयार है", letterCopy:"📋 कॉपी करें",
+    letterWa:"💬 WhatsApp पर भेजें", letterSamadhan:"🌐 समाधान पोर्टल पर शिकायत करें ↗", letterOffice:"🏛️ अपने राज्य का लेबर ऑफ़िस / हेल्पलाइन",
+    letterCopied:"चिट्ठी कॉपी हो गई। अब पोर्टल या WhatsApp में चिपकाएँ (Paste)।",
+    letterNote:"🔒 यह चिट्ठी सिर्फ़ आपके फ़ोन में बनी है — हमारे पास कुछ नहीं भेजा या सेव किया गया। पोर्टल पर शिकायत करते समय अपना नाम देना है या नहीं, यह आप तय करें।",
+  });
+  Object.assign(T.en, {
+    letterSub:"Your name or phone number will <b>not</b> be asked. Write below — your complaint letter is made at once; give it on the SAMADHAN portal or at the Labour Office, or send it on WhatsApp.",
+    letterBtn:"📝 Make my complaint letter", letterReady:"✅ Your complaint letter is ready", letterCopy:"📋 Copy",
+    letterWa:"💬 Send on WhatsApp", letterSamadhan:"🌐 Complain on the SAMADHAN portal ↗", letterOffice:"🏛️ Your state's Labour Office / helpline",
+    letterCopied:"Letter copied. Now paste it in the portal or WhatsApp.",
+    letterNote:"🔒 This letter is made only on your phone — nothing is sent to or stored by us. You decide whether to give your name when you file it.",
+  });
   T.hi.staticOff ="⏳ यह सुविधा जल्द आ रही है। अभी शिकायत के लिए समाधान पोर्टल (samadhan.labour.gov.in) या अपने ज़िले का लेबर ऑफ़िस इस्तेमाल करें।";
   T.en.staticOff = "⏳ This feature is coming soon. For now, use the SAMADHAN portal (samadhan.labour.gov.in) or your district Labour Office.";
   let LANG = 'hi';
@@ -236,8 +250,13 @@
     document.querySelectorAll('[data-tp]').forEach(el => el.placeholder = t(el.dataset.tp));
     document.getElementById('langBtn').textContent = LANG === 'en' ? 'हिं' : 'EN';
     renderTiles(); fillStates(); loadRights(); renderPortal();
-    if (STATIC) ['reportStatus', 'slipStatus'].forEach(id => { document.getElementById(id).textContent = t('staticOff'); });
-    if (STATIC) ['reportBtn', 'scanSlipBtn'].forEach(id => { document.getElementById(id).disabled = true; });
+    if (STATIC) {                     // no server: the complaint becomes a ready letter (letterReport); slip check is off
+      document.getElementById('slipStatus').textContent = t('staticOff');
+      document.getElementById('scanSlipBtn').disabled = true;
+      document.querySelector('#s-report [data-t="reportSub"]').innerHTML = t('letterSub');
+      document.getElementById('reportBtn').textContent = t('letterBtn');
+      if (lastLetter) letterReport(lastLetter);
+    }
     if (document.getElementById('s-answer').classList.contains('on')) showAnswer();
   }
   document.getElementById('langBtn').addEventListener('click', () => {
@@ -414,10 +433,38 @@
     const m = document.getElementById('reportMessage');
     if (!m.value && problemName()) m.value = t('iAm') + workName() + t('iAmEnd') + problemName() + '.';
   }
+  // GitHub Pages (no server): build the complaint letter on the phone only - nothing is sent or stored by us
+  let lastLetter = null;
+  function letterReport(r) {
+    lastLetter = r;
+    const s = STATES.find(x => x.id === r.stateId), today = new Date().toLocaleDateString(LANG === 'en' ? 'en-IN' : 'hi-IN');
+    const L1 = LANG === 'en'
+      ? [`To,\nThe Labour Officer / Labour Department, ${stateName(s)}`, `Subject: Complaint about my workplace`,
+         r.company ? `Company / contractor: ${r.company}` : '', r.message,
+         'Please look into this and take action under the Labour Codes.', `Date: ${today}`]
+      : [`सेवा में,\nश्रम अधिकारी / श्रम विभाग, ${stateName(s)}`, `विषय: काम की जगह से जुड़ी शिकायत`,
+         r.company ? `कंपनी / ठेकेदार: ${r.company}` : '', r.message,
+         'कृपया इसकी जाँच करके लेबर कोड के तहत कार्रवाई करें।', `तारीख़: ${today}`];
+    const text = L1.filter(Boolean).join('\n\n');
+    document.getElementById('reportStatus').innerHTML = `<div class="card"><h2>${t('letterReady')}</h2>
+      <div class="letter" id="letterText">${esc(text)}</div>
+      <div class="row2"><button class="big" type="button" data-act="copyLetter">${t('letterCopy')}</button>
+        <a class="big green" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">${t('letterWa')}</a></div>
+      <a class="big light" href="https://samadhan.labour.gov.in/" target="_blank" rel="noopener">${t('letterSamadhan')}</a>
+      <button class="big light" type="button" data-go="help">${t('letterOffice')}</button>
+      <div class="note">${t('letterNote')}</div></div>`;
+  }
+  async function copyLetter() {
+    const txt = document.getElementById('letterText').textContent;
+    try { await navigator.clipboard.writeText(txt); alert(t('letterCopied')); }
+    catch (e) { const r = document.createRange(); r.selectNodeContents(document.getElementById('letterText'));
+                const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+  }
   document.getElementById('reportBtn').addEventListener('click', async () => {
     const stateId = document.getElementById('reportState').value, message = document.getElementById('reportMessage').value.trim();
     const company = document.getElementById('reportCompany').value.trim(), out = document.getElementById('reportStatus');
     if (!stateId || !message) { out.textContent = t('reportMissing'); return; }
+    if (STATIC) { letterReport({ stateId, company, message }); return; }
     const d = await (await fetch('/api/report', { method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ stateId, company, message, lang: LANG }) })).json();
     out.textContent = (d.error ? '⚠️ ' : '✅ ') + (d.note || d.error);
@@ -447,6 +494,7 @@
     restart: () => restart(),
     showAnswer: () => showAnswer(),
     speakGuide: () => speak(GUIDE_TEXT),
+    copyLetter: () => copyLetter(),
     startSteps: () => { restart(); scrollToId('startHere'); },
     allRights: () => {
       scrollToId('rightsList');
