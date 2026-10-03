@@ -305,6 +305,7 @@
       <button type="button" data-nav="nav-lawyer" data-go="lawyer"><span>⚖️</span><b data-t="navLawyer"></b></button>
       <button type="button" data-nav="nav-report" data-go="report"><span>🕵️</span><b data-t="navReport"></b></button>
       <button type="button" data-nav="nav-help" data-go="help"><span>📞</span><b data-t="navHelp"></b></button>
+      <button type="button" data-nav="nav-profile" data-go="profile"><span>👤</span><b data-t="navProfile"></b></button>
     </nav>
     <span class="spacer"></span>
     <button class="pill-btn lang" type="button" data-go="help" data-t="helpBtn"></button>
@@ -349,6 +350,7 @@
             <button class="qbtn" type="button" data-act="draftClaim"><span class="i">📝</span><span data-t="q3"></span></button>
             <button class="qbtn" type="button" data-act="draftRti"><span class="i">📨</span><span data-t="q4"></span></button>
             <button class="qbtn qwide" type="button" data-go="ctc"><span class="i">💼</span><span data-t="q7"></span></button>
+            <button class="qbtn qwide" type="button" data-go="profile"><span class="i">👤</span><span data-t="q8"></span></button>
             <button class="qbtn qwide" type="button" data-act="allRights"><span class="i">📚</span><span data-t="q5"></span></button>
             <button class="qbtn qwide" type="button" data-go="help"><span class="i">🏛️</span><span data-t="q6"></span></button>
           </div>
@@ -499,6 +501,34 @@
     <div id="ctcOut"></div>
     <div class="card"><h2 data-t="cLawTitle"></h2><div id="ctcLaws"></div></div>
     <div class="note" data-t="disclaimer"></div>
+  </section>
+
+  <!-- MY PROFILE (3 Oct 2026, user chose "phone pe Meri profile" over a real login): saved only in this phone's
+       browser (localStorage), never sent anywhere; fills the RTI / claim / PIL forms and the complaint page -->
+  <section class="screen" id="s-profile">
+    <h1 data-t="pTitle"></h1>
+    <p class="sub" data-t="pSub"></p>
+    <div class="card">
+      <label class="dl"><span data-t="pName"></span><input type="text" id="p-name" autocomplete="name" /></label>
+      <label class="dl"><span data-t="pGuardian"></span><input type="text" id="p-guardian" /></label>
+      <label class="dl"><span data-t="pAddress"></span><textarea id="p-address" style="min-height:70px"></textarea></label>
+      <label class="dl"><span data-t="pPhone"></span><input type="tel" id="p-phone" inputmode="tel" maxlength="15" /></label>
+      <label class="dl"><span data-t="chooseState"></span><select id="pState"></select></label>
+      <label class="dl"><span data-t="districtPh"></span><input type="text" id="p-district" list="pDistrictList" autocomplete="off" /></label>
+      <datalist id="pDistrictList"></datalist>
+    </div>
+    <div class="card">
+      <label class="dl"><span data-t="pJob"></span><input type="text" id="p-job" /></label>
+      <label class="dl"><span data-t="pCompany"></span><input type="text" id="p-company" /></label>
+      <label class="dl"><span data-t="pCompanyAddr"></span><input type="text" id="p-companyAddr" /></label>
+      <label class="dl"><span data-t="pJoin"></span><input type="date" id="p-join" /></label>
+      <label class="dl"><span data-t="pUan"></span><input type="text" id="p-uan" inputmode="numeric" maxlength="12" /></label>
+      <label class="dl"><span data-t="pEsi"></span><input type="text" id="p-esi" inputmode="numeric" maxlength="17" /></label>
+    </div>
+    <button class="big" type="button" data-act="saveProfile" data-t="pSave"></button>
+    <div class="status" id="pStatus"></div>
+    <button class="big light" type="button" data-act="clearProfile" data-t="pClear"></button>
+    <div class="note" data-t="pNote"></div>
   </section>
 
   <!-- SLIP -->

@@ -101,6 +101,7 @@
       <button class="big" type="button" id="d-make">${dt('make')}</button>
       <div id="d-out"></div>`;
     Object.entries(keep).forEach(([k, v]) => { const el = document.getElementById(k); if (el && v) el.value = v; });   // typed text survives a re-draw
+    fillFromProfile();                                   // empty boxes from 'My profile' (app.js, this phone only)
     box.querySelectorAll('[data-dtype]').forEach(b => b.addEventListener('click', () => { draftType = b.dataset.dtype; renderDraft(); }));
     const off = document.getElementById('d-office'); if (off) off.addEventListener('change', renderDraft);
     document.getElementById('d-make').addEventListener('click', makeDraft);

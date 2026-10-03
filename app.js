@@ -393,8 +393,31 @@
     ["📨","RTI अर्ज़ी बनाएँ","Make an RTI application","rti suchna adhikar information आरटीआई सूचना", () => ACTIONS.draftRti()],
     ["📝","लेबर ऑफ़िस में दावा / अर्ज़ी","Claim application to the Labour Office","claim dava arzi application दावा अर्ज़ी अर्जी", () => ACTIONS.draftClaim()],
     ["🔎","कंपनी PF जमा करती है या नहीं","Does the company deposit PF","company pf check epfo jama deposit कंपनी जमा", () => go('report')],
+    ["👤","मेरी प्रोफ़ाइल","My profile","profile login account meri jankari naam pata uan प्रोफ़ाइल प्रोफाइल लॉगिन जानकारी", () => go('profile')],
     ["📞","हेल्पलाइन और लेबर ऑफ़िस","Helplines and Labour Office","helpline phone number office labour office madad हेल्पलाइन नंबर दफ़्तर मदद", () => go('help')],
   ];
+  // my profile - kept only on this phone (localStorage 'profile'); fills the letters and forms
+  const P_FIELDS = ['name', 'guardian', 'address', 'phone', 'district', 'job', 'company', 'companyAddr', 'join', 'uan', 'esi'];
+  Object.assign(T.hi, {
+    navProfile:"प्रोफ़ाइल", q8:"मेरी प्रोफ़ाइल<small>एक बार भरें — हर चिट्ठी / अर्ज़ी अपने-आप भरेगी</small>",
+    pTitle:"👤 मेरी प्रोफ़ाइल", pSub:"अपनी जानकारी एक बार भरें — RTI, दावा और PIL की अर्ज़ी और शिकायत का पेज अपने-आप भर जाएँगे। कोई पासवर्ड या लॉग-इन नहीं चाहिए।",
+    pName:"आपका नाम", pGuardian:"पिता / पति का नाम", pAddress:"आपका पूरा पता", pPhone:"मोबाइल नंबर",
+    pJob:"आपका काम (जैसे इलेक्ट्रीशियन)", pCompany:"कंपनी / मालिक का नाम", pCompanyAddr:"कंपनी / काम की जगह का पता",
+    pJoin:"काम शुरू किया (तारीख़)", pUan:"UAN नंबर (PF, 12 अंक)", pEsi:"ESI नंबर (अगर है)",
+    pSave:"💾 सेव करें", pSaved:"✅ सेव हो गया — सिर्फ़ इसी फ़ोन में।", pClear:"🗑️ प्रोफ़ाइल मिटाएँ", pCleared:"🗑️ प्रोफ़ाइल मिटा दी गई।",
+    pConfirm:"क्या प्रोफ़ाइल की सारी जानकारी इस फ़ोन से मिटा दें?",
+    pNote:"🔒 यह जानकारी सिर्फ़ इसी फ़ोन के ब्राउज़र में रहती है — हमारे पास या इंटरनेट पर कहीं नहीं जाती। बिना नाम वाली शिकायत की चिट्ठी में आपका नाम नहीं जोड़ा जाता। फ़ोन किसी और के साथ बाँटते हैं तो काम के बाद 'प्रोफ़ाइल मिटाएँ' दबा दें।",
+  });
+  Object.assign(T.en, {
+    navProfile:"Profile", q8:"My profile<small>Fill once — every letter / application fills itself</small>",
+    pTitle:"👤 My profile", pSub:"Fill your details once — the RTI, claim and PIL applications and the complaint page fill themselves. No password or login needed.",
+    pName:"Your name", pGuardian:"Father's / husband's name", pAddress:"Your full address", pPhone:"Mobile number",
+    pJob:"Your work (e.g. electrician)", pCompany:"Company / employer name", pCompanyAddr:"Company / workplace address",
+    pJoin:"Started work on (date)", pUan:"UAN number (PF, 12 digits)", pEsi:"ESI number (if any)",
+    pSave:"💾 Save", pSaved:"✅ Saved — only on this phone.", pClear:"🗑️ Delete profile", pCleared:"🗑️ Profile deleted.",
+    pConfirm:"Delete all profile details from this phone?",
+    pNote:"🔒 These details stay only in this phone's browser — they never go to us or anywhere on the internet. Your name is not added to the no-name complaint letter. If you share the phone, tap 'Delete profile' when you are done.",
+  });
   T.hi.staticOff ="⏳ यह सुविधा जल्द आ रही है। अभी शिकायत के लिए समाधान पोर्टल (samadhan.labour.gov.in) या अपने ज़िले का लेबर ऑफ़िस इस्तेमाल करें।";
   T.en.staticOff = "⏳ This feature is coming soon. For now, use the SAMADHAN portal (samadhan.labour.gov.in) or your district Labour Office.";
   let LANG = 'hi';
@@ -514,10 +537,11 @@
     document.getElementById('s-' + name).classList.add('on');
     document.querySelectorAll('nav.bottom button').forEach(b => b.classList.remove('on'));
     const nav = { work:'nav-work', problem:'nav-work', state:'nav-work', answer:'nav-work', slip:'nav-work',
-                  lawyer:'nav-lawyer', report:'nav-report', help:'nav-help', draft:'nav-report', ctc:'nav-work' }[name];
+                  lawyer:'nav-lawyer', report:'nav-report', help:'nav-help', draft:'nav-report', ctc:'nav-work', profile:'nav-work' }[name];
     document.getElementById(nav).classList.add('on');
     document.querySelectorAll('.hnav [data-nav]').forEach(b => b.classList.toggle('on', b.dataset.nav === nav));
     if (name !== 'answer') document.body.dataset.bg = '';
+    if (name === 'profile') showProfile();
     window.scrollTo(0, 0);
   }
   function restart() { st.work = st.problem = -1; st.ownText = ""; document.getElementById('ownText').value = ""; renderTiles(); go('work'); }
@@ -541,7 +565,7 @@
     if (!STATES.length) return;
     const opts = `<option value="">${t('chooseState')}</option>` + STATES.map(s =>
       `<option value="${s.id}">${esc(stateName(s))}${s.pilot ? '' : t('soon')}</option>`).join('');
-    ['stateSelect', 'reportState', 'helpState'].forEach(id => { const el = document.getElementById(id); const v = el.value || st.stateId; el.innerHTML = opts; el.value = v; });
+    ['stateSelect', 'reportState', 'helpState', 'pState'].forEach(id => { const el = document.getElementById(id); const v = el.value || st.stateId; el.innerHTML = opts; el.value = v; });
     showHelp(document.getElementById('helpState').value);
   }
   async function loadStates() {
@@ -551,6 +575,7 @@
     fillStates();
     fillDistricts(); fillDistricts('helpState', 'helpDistrictList');
     try { const d = localStorage.getItem('district') || ''; if (d && st.stateId) document.getElementById('reportDistrict').value = d; } catch (x) {}
+    { const c = getProfile().company, el = document.getElementById('reportCompany'); if (c && !el.value) el.value = c; }
   }
   function setState(id) {
     const s = STATES.find(x => x.id === id);
@@ -720,6 +745,35 @@
       <button class="big" type="button" data-act="unionMsg">${t('umBtn')}</button><div id="unionMsgBox"></div>
       <div class="note">${t('uNote')}</div></div>`;
   }
+  // ---- my profile (this phone only)
+  function getProfile() { try { return JSON.parse(localStorage.getItem('profile') || '{}') || {}; } catch (e) { return {}; } }
+  function showProfile() {
+    const p = getProfile();
+    P_FIELDS.forEach(k => { const el = document.getElementById('p-' + k); if (el) el.value = p[k] || ''; });
+    if (p.state) document.getElementById('pState').value = p.state;
+    fillDistricts('pState', 'pDistrictList');
+  }
+  function saveProfile() {
+    const p = { state: document.getElementById('pState').value };
+    P_FIELDS.forEach(k => { p[k] = document.getElementById('p-' + k).value.trim().slice(0, 300); });
+    try { localStorage.setItem('profile', JSON.stringify(p)); } catch (e) {}
+    if (p.state) setState(p.state);
+    if (p.district) try { localStorage.setItem('district', p.district); } catch (e) {}
+    document.getElementById('pStatus').textContent = t('pSaved');
+  }
+  function clearProfile() {
+    if (!confirm(t('pConfirm'))) return;
+    try { localStorage.removeItem('profile'); } catch (e) {}
+    showProfile(); document.getElementById('pStatus').textContent = t('pCleared');
+  }
+  // used by draft.js after it draws its form: fill only the empty boxes
+  function fillFromProfile() {
+    const p = getProfile(), map = { name:'d-name', guardian:'d-guardian', address:'d-address', phone:'d-phone', district:'d-district',
+      company:'d-employer', companyAddr:'d-employerAddr', job:'d-job', join:'d-join', uan:'d-uan' };
+    Object.entries(map).forEach(([k, id]) => { const el = document.getElementById(id); if (el && !el.value && p[k]) el.value = p[k]; });
+    const ds = document.getElementById('d-state'); if (ds && !ds.value && p.state) ds.value = p.state;
+  }
+  document.getElementById('pState').addEventListener('change', () => { document.getElementById('p-district').value = ''; fillDistricts('pState', 'pDistrictList'); });
   // ---- search: match words in Hindi / English / Hinglish; nuqta and chandrabindu ignored (तनख्वाह = तनख़्वाह)
   const norm = x => String(x).toLowerCase().normalize('NFD').replace(/[\u093c\u0901]/g, '').replace(/\u0902/g, 'न').replace(/[^a-z0-9\u0900-\u097f]+/g, ' ').trim();
   let GUIDE_LIST = { hi: [], en: [] };
@@ -1001,6 +1055,8 @@
     speakGuide: () => speak(GUIDE_TEXT),
     copyLetter: () => copyLetter(),
     pilLetter: () => pilLetter(),
+    saveProfile: () => saveProfile(),
+    clearProfile: () => clearProfile(),
     toCollector: () => lastLetter && letterReport(lastLetter, 'collector'),
     toLabour: () => lastLetter && letterReport(lastLetter, 'labour'),
     unionMsg: () => unionMessage(),
