@@ -279,6 +279,39 @@
     uNote:"We are not linked to any union or political party; this list is only for information. If you pay a membership fee, always take a receipt.",
     uBtn:"🤝 Also get help from a union",
   });
+  Object.assign(T.hi, {
+    umBtn:"📝 यूनियन के लिए संदेश बनाएँ", umNeed:"⚠️ पहले 'शिकायत' पेज पर क्या हुआ, राज्य और कंपनी भरें — फिर यहाँ संदेश अपने-आप बन जाएगा।",
+    umGo:"🕵️ शिकायत पेज खोलें", umReady:"✅ यूनियन के लिए संदेश तैयार है",
+    umHow:"यह संदेश WhatsApp पर भेजें, या ऊपर किसी यूनियन की वेबसाइट के 'Contact / संपर्क' पेज पर दिए नंबर / ईमेल पर भेजें। भेजना है या नहीं, और किसे — यह आप तय करें; हम कहीं कुछ नहीं भेजते।",
+    umHello:"नमस्ते,", umWork:(where, co) => `मैं ${where}${co ? ` में ${co}` : ''} में काम करता / करती हूँ।`,
+    umNoUnion:"हमारी कंपनी में यूनियन नहीं है।", umAsk:"कृपया बताएँ कि आपकी ज़िले की शाखा से कैसे संपर्क करें और आप इसमें कैसे मदद कर सकते हैं।",
+  });
+  Object.assign(T.en, {
+    umBtn:"📝 Make a message for a union", umNeed:"⚠️ First fill what happened, the state and the company on the 'Complain' page — the message is then made here automatically.",
+    umGo:"🕵️ Open the complaint page", umReady:"✅ Message for the union is ready",
+    umHow:"Send it on WhatsApp, or to the number / email on the 'Contact' page of a union's website above. Whether to send it, and to whom, is your choice; we send nothing anywhere.",
+    umHello:"Hello,", umWork:(where, co) => `I work${co ? ` at ${co}` : ''} in ${where}.`,
+    umNoUnion:"There is no union in our company.", umAsk:"Please tell us how to contact your district branch and how you can help with this.",
+  });
+  // letter to the District Collector (3 Oct 2026) - same complaint, addressed to the Collector / DM; office found on the map
+  Object.assign(T.hi, {
+    toLabour:"⚖️ लेबर ऑफ़िस के नाम", toCollector:"🏛️ कलेक्टर के नाम चिट्ठी बनाएँ",
+    colTo:d => `सेवा में,\nज़िला कलेक्टर / ज़िलाधिकारी महोदय,\n${d}`,
+    colSub:co => co ? `विषय: ${co} के ख़िलाफ़ शिकायत — कार्रवाई हेतु` : 'विषय: काम की जगह से जुड़ी शिकायत — कार्रवाई हेतु',
+    colBefore:"मैंने इसकी शिकायत श्रम विभाग में ________ (तारीख़ / शिकायत नंबर) को की थी, पर अब तक कोई कार्रवाई नहीं हुई।",
+    colAsk:"कृपया श्रम विभाग को निर्देश देकर इस मामले में जल्द कार्रवाई करवाने की कृपा करें।",
+    colMap:"📍 नक़्शे पर ज़िले का कलेक्टर कार्यालय (पता और फ़ोन) ↗",
+    colHow:"चिट्ठी की 2 कॉपी लेकर कलेक्टर कार्यालय (कलेक्ट्रेट) की आवक शाखा में या जनसुनवाई में दें, और एक कॉपी पर मुहर व तारीख़ लगवाकर रखें। कई राज्यों में हर हफ़्ते जनसुनवाई होती है — दिन और समय कलेक्टर कार्यालय से पूछें। ऑनलाइन के लिए मुख्यमंत्री हेल्पलाइन / CPGRAMS भी है (नीचे 'अब आगे क्या करें')।",
+  });
+  Object.assign(T.en, {
+    toLabour:"⚖️ To the Labour Office", toCollector:"🏛️ Make a letter to the Collector",
+    colTo:d => `To,\nThe District Collector / District Magistrate,\n${d}`,
+    colSub:co => co ? `Subject: Complaint against ${co} — for action` : "Subject: Complaint about the workplace — for action",
+    colBefore:"I complained to the Labour Department on ________ (date / complaint number), but no action has been taken so far.",
+    colAsk:"Kindly direct the Labour Department to take early action in this matter.",
+    colMap:"📍 District Collector's office on the map (address and phone) ↗",
+    colHow:"Take 2 copies to the Collector's office (Collectorate) inward section or the public hearing (jan sunwai), and get one copy stamped and dated. Many states hold a weekly public hearing — ask the Collector's office for the day and time. Online, there is also the CM helpline / CPGRAMS (see 'What to do next' below).",
+  });
   T.hi.staticOff ="⏳ यह सुविधा जल्द आ रही है। अभी शिकायत के लिए समाधान पोर्टल (samadhan.labour.gov.in) या अपने ज़िले का लेबर ऑफ़िस इस्तेमाल करें।";
   T.en.staticOff = "⏳ This feature is coming soon. For now, use the SAMADHAN portal (samadhan.labour.gov.in) or your district Labour Office.";
   let LANG = 'hi';
@@ -578,6 +611,19 @@
       <a class="big light" href="https://passbook.epfindia.gov.in/" target="_blank" rel="noopener">${t('coMine')}</a>
       <div class="note">${t('coNote')}</div></details>`;
   }
+  // message for a union from what the worker filled on the complaint page (made on the phone, sent only by the worker)
+  function unionMessage() {
+    const box = document.getElementById('unionMsgBox');
+    const msg = document.getElementById('reportMessage').value.trim(), sid = document.getElementById('reportState').value;
+    if (!msg || !sid) { box.innerHTML = `<div class="status">${t('umNeed')}</div><button class="big light" type="button" data-go="report">${t('umGo')}</button>`; return; }
+    const s = STATES.find(x => x.id === sid), d = document.getElementById('reportDistrict').value.trim().slice(0, 60);
+    const co = document.getElementById('reportCompany').value.trim().slice(0, 100), where = (d ? d + ', ' : '') + stateName(s);
+    const text = [t('umHello'), T[LANG].umWork(where, co), msg, t('umNoUnion'), t('umAsk')].join('\n\n');
+    box.innerHTML = `<h2 style="margin-top:1rem">${t('umReady')}</h2><div class="letter" id="unionText">${esc(text)}</div>
+      <div class="row2"><button class="big" type="button" data-act="copyUnion">${t('letterCopy')}</button>
+        <a class="big green" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">${t('letterWa')}</a></div>
+      <div class="note">${t('umHow')}</div>`;
+  }
   function unionCard() {
     document.getElementById('unionBox').innerHTML = `<div class="card unioncard" id="unions"><h2>${t('uTitle')}</h2>
       <p class="sub" style="margin:0 0 .4rem">${t('uSub')}</p>
@@ -588,6 +634,7 @@
         ? `<a href="${u[2]}" target="_blank" rel="noopener"><b>${u[0]}</b> — ${esc(u[1])} ↗</a>`
         : `<div class="nosite"><b>${u[0]}</b> — ${esc(u[1])}<br><small>${t('uNoSite')}</small></div>`).join('')}</div>
       <div class="src"><a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=1508576" target="_blank" rel="noopener">${t('uSrc')}</a></div>
+      <button class="big" type="button" data-act="unionMsg">${t('umBtn')}</button><div id="unionMsgBox"></div>
       <div class="note">${t('uNote')}</div></div>`;
   }
   // ---- minimum wage card + check (answer page and help page)
@@ -679,10 +726,14 @@
   }
   // GitHub Pages (no server): build the complaint letter on the phone only - nothing is sent or stored by us
   let lastLetter = null;
-  function letterReport(r) {
-    lastLetter = r;
+  function letterReport(r, to = (lastLetter && lastLetter.to) || 'labour') {
+    r.to = to; lastLetter = r;
     const s = STATES.find(x => x.id === r.stateId), today = new Date().toLocaleDateString(LANG === 'en' ? 'en-IN' : 'hi-IN');
-    const L1 = LANG === 'en'
+    const where = (r.district ? (LANG === 'en' ? `District ${r.district}, ` : `ज़िला ${r.district}, `) : '') + stateName(s);
+    const L1 = to === 'collector'
+      ? [T[LANG].colTo(where), T[LANG].colSub(r.company), r.company ? (LANG === 'en' ? `Company / contractor: ${r.company}` : `कंपनी / ठेकेदार: ${r.company}`) : '',
+         r.message, t('colBefore'), t('colAsk'), (LANG === 'en' ? 'Date: ' : 'तारीख़: ') + today]
+      : LANG === 'en'
       ? [`To,\nThe Labour Officer / Labour Department,\n${r.district ? `District ${r.district}, ` : ''}${stateName(s)}`,
          r.company ? `Subject: Complaint against ${r.company}` : `Subject: Complaint about my workplace`,
          r.company ? `Company / contractor: ${r.company}` : '', r.message,
@@ -696,7 +747,10 @@
       <div class="letter" id="letterText">${esc(text)}</div>
       <div class="row2"><button class="big" type="button" data-act="copyLetter">${t('letterCopy')}</button>
         <a class="big green" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">${t('letterWa')}</a></div>
-      <a class="big light" href="https://samadhan.labour.gov.in/" target="_blank" rel="noopener">${t('letterSamadhan')}</a>
+      ${to === 'collector'
+        ? `<a class="big light" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Collector Office ' + (r.district || '') + ' ' + (s ? s.name : ''))}" target="_blank" rel="noopener">${t('colMap')}</a><div class="note">${t('colHow')}</div>`
+        : `<a class="big light" href="https://samadhan.labour.gov.in/" target="_blank" rel="noopener">${t('letterSamadhan')}</a>`}
+      <button class="big light" type="button" data-act="${to === 'collector' ? 'toLabour' : 'toCollector'}">${t(to === 'collector' ? 'toLabour' : 'toCollector')}</button>
       <button class="big light" type="button" data-go="help">${t('letterOffice')}</button>
       <div class="note">${t('letterNote')}</div></div>`;
   }
@@ -765,7 +819,7 @@
     if (!stateId || !message) { out.textContent = t('reportMissing'); return; }
     try { localStorage.setItem('district', document.getElementById('reportDistrict').value.trim()); } catch (x) {}
     const district = document.getElementById('reportDistrict').value.trim().slice(0, 60);
-    if (STATIC) { letterReport({ stateId, district, company, message }); return; }
+    if (STATIC) { letterReport({ stateId, district, company, message }, 'labour'); return; }
     const d = await (await fetch('/api/report', { method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ stateId, company, message, lang: LANG }) })).json();
     out.textContent = (d.error ? '⚠️ ' : '✅ ') + (d.note || d.error);
@@ -797,6 +851,10 @@
     speakGuide: () => speak(GUIDE_TEXT),
     copyLetter: () => copyLetter(),
     pilLetter: () => pilLetter(),
+    toCollector: () => lastLetter && letterReport(lastLetter, 'collector'),
+    toLabour: () => lastLetter && letterReport(lastLetter, 'labour'),
+    unionMsg: () => unionMessage(),
+    copyUnion: () => copyLetter('unionText'),
     unions: () => { go('help'); setTimeout(() => document.getElementById('unions').scrollIntoView({ behavior: 'smooth' }), 30); },
     wageComplain: () => {
       const k = PROBLEMS.findIndex(x => x[3] === 'minwage'); st.problem = k; st.problemId = 'minwage'; rp.problem = k;
