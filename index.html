@@ -219,6 +219,17 @@
   .bigcase { border-top:5px solid #f59e0b; }
   .rq { margin:1.1rem 0 .5rem; font-size:1.08rem; }
   .wagecard { border-top:5px solid var(--accent); }
+  .searchbar { max-width:1240px; margin:.75rem auto 0; background:#fff; border:2px solid #c5dff6; border-radius:14px; display:flex; align-items:center;
+               gap:.4rem; padding:.15rem .7rem; box-shadow:var(--shadow); }
+  .searchbar:focus-within { border-color:var(--primary); }
+  .searchbar .sic { font-size:1.2rem; }
+  .searchbar input { border:0; outline:0; flex:1; min-width:0; padding:.7rem .2rem; font-size:1.05rem; background:transparent; }
+  .sresults { max-width:1240px; margin:.4rem auto 0; background:#fff; border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); overflow:hidden; }
+  .sresults button { display:flex; gap:.6rem; align-items:flex-start; width:100%; text-align:left; background:#fff; border:0; border-bottom:1px solid #eef3f9;
+                     padding:.7rem .9rem; cursor:pointer; font-size:.98rem; color:var(--text); }
+  .sresults button:hover { background:var(--soft); }
+  .sresults .i { font-size:1.3rem; } .sresults small { display:block; color:var(--muted); font-size:.84rem; }
+  .sresults .none { padding:.8rem .9rem; color:var(--muted); }
   .ctcbox { border-top:5px solid var(--primary); }
   .ctcrow { display:flex; justify-content:space-between; gap:.6rem; padding:.45rem 0; border-bottom:1px dashed var(--line); }
   .ctcrow b { white-space:nowrap; } .ctcrow.tot { font-size:1.12rem; font-weight:800; border-bottom:2px solid var(--line); }
@@ -307,6 +318,11 @@
     <button class="arr" type="button" data-act="tickPrev" aria-label="previous">←</button>
     <button class="arr" type="button" data-act="tickNext" aria-label="next">→</button>
   </div>
+  <div class="searchbar">
+    <span class="sic">🔍</span>
+    <input type="search" id="siteSearch" data-tp="sPh" autocomplete="off" enterkeyhint="search" aria-label="search" />
+  </div>
+  <div class="sresults" id="searchResults" hidden></div>
   <div class="test" data-t="testMode"></div>
 </div>
 

@@ -360,6 +360,41 @@
       ["Why every company's structure differs","Many companies kept basic low and allowances high to pay less PF / gratuity. The new 50% rule stops this. A monthly salary slip is your right — every cut must be written on it."],
     ],
   });
+  // site search (3 Oct 2026, user: "ek search option bhi banao"): Hindi, English and Hinglish words
+  Object.assign(T.hi, { sPh:"खोजें — जैसे तनख़्वाह, PF, ओवरटाइम, छुट्टी, यूनियन, CTC…", sNone:"कुछ नहीं मिला। दूसरा शब्द लिखें, या नीचे 'अपना हक़ जानें' दबाएँ।", sGuide:"आपका हक़ और क़दम" });
+  Object.assign(T.en, { sPh:"Search — e.g. salary, PF, overtime, leave, union, CTC…", sNone:"Nothing found. Try another word, or tap 'Know your rights' below.", sGuide:"Your right and the steps" });
+  // extra words people type (Hinglish / common spellings) per guide id
+  const S_WORDS = {
+    salary:"salary tankhwah tankhah tanakhwah vetan pagar paisa payment wages नहीं मिली सैलरी वेतन पगार पैसा भुगतान",
+    contractor:"thekedar thekedaar contractor contract theka ठेकेदार ठेका पैसा रोका",
+    fired:"nikala nikal diya fired termination job chali gayi notice retrench chhatni निकाला नौकरी नोटिस छँटनी छंटनी",
+    overtime:"overtime ot extra ghante double ओवरटाइम ज़्यादा घंटे दोगुना",
+    minwage:"minimum wage min wage kam paisa nyuntam mazduri न्यूनतम मज़दूरी मजदूरी कम पैसा",
+    pf:"pf epf esi esic provident fund uan bima पीएफ ईएसआई भविष्य निधि",
+    safety:"safety helmet gloves joote suraksha सुरक्षा हेलमेट दस्ताने जूते",
+    injury:"injury chot accident hadsa durghatna compensation muavza चोट दुर्घटना हादसा मुआवज़ा मुआवजा",
+    hours:"12 ghante hours duty shift weekly off chhutti nahi घंटे शिफ़्ट ड्यूटी",
+    leave:"leave chhutti chutti holiday chuttiyan annual leave छुट्टी अवकाश",
+    equalpay:"equal pay mahila aurat women ladies barabar वेतन बराबर महिला औरत",
+    maternity:"maternity pregnancy delivery garbh garbhavastha matritva मातृत्व गर्भावस्था डिलीवरी",
+    gratuity:"gratuity graturity gratuty ग्रेच्युटी ग्रैच्युटी",
+    bonus:"bonus diwali बोनस दिवाली",
+    posh:"harassment sexual chhedkhani posh yaun utpidan छेड़छाड़ उत्पीड़न यौन",
+  };
+  // features (icon, Hindi, English, words, action)
+  const S_FEATURES = [
+    ["💼","सैलरी / CTC कैलकुलेटर","Salary / CTC calculator","ctc in hand inhand haath hath salary slip parchi calculator hisab कैलकुलेटर हाथ में पर्ची हिसाब", () => go('ctc')],
+    ["💰","राज्य की न्यूनतम मज़दूरी जाँचें","Check your state's minimum wage","minimum wage kam paisa rate state rajya dar न्यूनतम मज़दूरी दर राज्य", () => { go('help'); }],
+    ["🕵️","शिकायत की चिट्ठी बनाएँ (बिना नाम)","Make a complaint letter (no name)","complaint shikayat letter chitthi samadhan labour office शिकायत चिट्ठी लेबर ऑफ़िस", () => go('report')],
+    ["🏛️","कलेक्टर तक शिकायत","Complaint to the District Collector","collector dm jila adhikari jansunwai कलेक्टर ज़िलाधिकारी जनसुनवाई", () => go('report')],
+    ["🤝","यूनियन से मदद","Help from a union","union unions trade union sangathan bms intuc citu hms यूनियन संगठन", () => ACTIONS.unions()],
+    ["⚖️","पास का वकील / मुफ़्त वकील 15100","Nearby lawyer / free lawyer 15100","lawyer vakil advocate court nalsa 15100 free वकील कोर्ट मुफ़्त", () => go('lawyer')],
+    ["📜","सुप्रीम कोर्ट PIL (कई मज़दूरों का मामला)","Supreme Court PIL (many workers)","supreme court pil high court bandhua bonded सुप्रीम कोर्ट बंधुआ", () => go('report')],
+    ["📨","RTI अर्ज़ी बनाएँ","Make an RTI application","rti suchna adhikar information आरटीआई सूचना", () => ACTIONS.draftRti()],
+    ["📝","लेबर ऑफ़िस में दावा / अर्ज़ी","Claim application to the Labour Office","claim dava arzi application दावा अर्ज़ी अर्जी", () => ACTIONS.draftClaim()],
+    ["🔎","कंपनी PF जमा करती है या नहीं","Does the company deposit PF","company pf check epfo jama deposit कंपनी जमा", () => go('report')],
+    ["📞","हेल्पलाइन और लेबर ऑफ़िस","Helplines and Labour Office","helpline phone number office labour office madad हेल्पलाइन नंबर दफ़्तर मदद", () => go('help')],
+  ];
   T.hi.staticOff ="⏳ यह सुविधा जल्द आ रही है। अभी शिकायत के लिए समाधान पोर्टल (samadhan.labour.gov.in) या अपने ज़िले का लेबर ऑफ़िस इस्तेमाल करें।";
   T.en.staticOff = "⏳ This feature is coming soon. For now, use the SAMADHAN portal (samadhan.labour.gov.in) or your district Labour Office.";
   let LANG = 'hi';
@@ -685,6 +720,44 @@
       <button class="big" type="button" data-act="unionMsg">${t('umBtn')}</button><div id="unionMsgBox"></div>
       <div class="note">${t('uNote')}</div></div>`;
   }
+  // ---- search: match words in Hindi / English / Hinglish; nuqta and chandrabindu ignored (तनख्वाह = तनख़्वाह)
+  const norm = x => String(x).toLowerCase().normalize('NFD').replace(/[\u093c\u0901]/g, '').replace(/\u0902/g, 'न').replace(/[^a-z0-9\u0900-\u097f]+/g, ' ').trim();
+  let GUIDE_LIST = { hi: [], en: [] };
+  async function searchIndex() {
+    for (const lg of ['hi', 'en']) if (!GUIDE_LIST[lg].length) {
+      try { GUIDE_LIST[lg] = await getJSON(STATIC ? `api/guides.${lg}.json` : '/api/guides?lang=' + lg); } catch (e) {}
+    }
+    const items = [];
+    const ids = new Set([...GUIDE_LIST.hi, ...GUIDE_LIST.en].map(g => g.id));
+    for (const id of ids) {
+      const h = GUIDE_LIST.hi.find(g => g.id === id) || {}, e = GUIDE_LIST.en.find(g => g.id === id) || {};
+      const p = PROBLEMS.find(x => x[3] === id);
+      items.push({ icon: p ? p[0] : '📘', title: LANG === 'en' ? (e.title || h.title) : (h.title || e.title), sub: t('sGuide'),
+        text: norm([h.title, e.title, h.short, e.short, h.law, e.law, p ? p[1] + ' ' + p[2] : '', S_WORDS[id] || ''].join(' ')), go: () => openGuide(id) });
+    }
+    for (const f of S_FEATURES) items.push({ icon: f[0], title: LANG === 'en' ? f[2] : f[1], sub: '', text: norm(f[1] + ' ' + f[2] + ' ' + f[3]), go: f[4] });
+    return items;
+  }
+  async function runSearch() {
+    const q = norm(document.getElementById('siteSearch').value), box = document.getElementById('searchResults');
+    if (q.length < 2) { box.hidden = true; box.innerHTML = ''; return; }
+    const words = q.split(' ').filter(Boolean);
+    const items = await searchIndex();
+    const hits = items.map(it => ({ it, score: words.reduce((n, w) => n + (it.text.includes(w) ? (it.text.split(' ').includes(w) ? 3 : 1) : 0), 0) }))
+      .filter(x => x.score > 0).sort((a, b) => b.score - a.score).slice(0, 7);
+    box.hidden = false;
+    box.innerHTML = hits.length ? hits.map((x, k) => `<button type="button" data-hit="${k}"><span class="i">${x.it.icon}</span><span>${esc(x.it.title)}${x.it.sub ? `<small>${esc(x.it.sub)}</small>` : ''}</span></button>`).join('')
+      : `<div class="none">${t('sNone')}</div>`;
+    box.querySelectorAll('[data-hit]').forEach(b => b.addEventListener('click', () => {
+      box.hidden = true; document.getElementById('siteSearch').value = ''; hits[+b.dataset.hit].it.go();
+    }));
+  }
+  let searchTimer = 0;
+  document.getElementById('siteSearch').addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(runSearch, 150); });
+  document.getElementById('siteSearch').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { const first = document.querySelector('#searchResults [data-hit]'); if (first) first.click(); }
+    if (e.key === 'Escape') { document.getElementById('searchResults').hidden = true; }
+  });
   // ---- salary / CTC calculator
   let pfMode = 0;
   const numIn = id => Math.max(0, parseInt(String(document.getElementById(id).value).replace(/[^0-9]/g, ''), 10) || 0);
