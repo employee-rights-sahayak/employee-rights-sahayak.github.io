@@ -137,14 +137,16 @@
   ];
   Object.assign(T.hi, {
     letterSub:"आपका नाम या फ़ोन नंबर <b>नहीं</b> माँगा जाएगा। नीचे लिखिए — आपकी शिकायत की चिट्ठी तुरंत तैयार हो जाएगी, जिसे आप समाधान पोर्टल या लेबर ऑफ़िस में दे सकते हैं, या WhatsApp पर भेज सकते हैं।",
-    letterBtn:"📝 शिकायत की चिट्ठी तैयार करें", letterReady:"✅ आपकी शिकायत की चिट्ठी तैयार है", letterCopy:"📋 कॉपी करें",
+    districtPh:"ज़िला — लिस्ट से चुनें या ख़ुद लिखें", mapOffice:"📍 नक्शे पर ज़िले का लेबर ऑफ़िस (पता और फ़ोन)",
+    mapNote:"पता और फ़ोन नंबर Google Maps से आते हैं। जाने या फ़ोन करने से पहले पक्का कर लें कि वह सरकारी श्रम कार्यालय ही है।", letterBtn:"📝 शिकायत की चिट्ठी तैयार करें", letterReady:"✅ आपकी शिकायत की चिट्ठी तैयार है", letterCopy:"📋 कॉपी करें",
     letterWa:"💬 WhatsApp पर भेजें", letterSamadhan:"🌐 समाधान पोर्टल पर शिकायत करें ↗", letterOffice:"🏛️ अपने राज्य का लेबर ऑफ़िस / हेल्पलाइन",
     letterCopied:"चिट्ठी कॉपी हो गई। अब पोर्टल या WhatsApp में चिपकाएँ (Paste)।",
     letterNote:"🔒 यह चिट्ठी सिर्फ़ आपके फ़ोन में बनी है — हमारे पास कुछ नहीं भेजा या सेव किया गया। पोर्टल पर शिकायत करते समय अपना नाम देना है या नहीं, यह आप तय करें।",
   });
   Object.assign(T.en, {
     letterSub:"Your name or phone number will <b>not</b> be asked. Write below — your complaint letter is made at once; give it on the SAMADHAN portal or at the Labour Office, or send it on WhatsApp.",
-    letterBtn:"📝 Make my complaint letter", letterReady:"✅ Your complaint letter is ready", letterCopy:"📋 Copy",
+    districtPh:"District — pick from the list or type it", mapOffice:"📍 District Labour Office on the map (address and phone)",
+    mapNote:"Address and phone come from Google Maps. Before going or calling, make sure it is the government labour office.", letterBtn:"📝 Make my complaint letter", letterReady:"✅ Your complaint letter is ready", letterCopy:"📋 Copy",
     letterWa:"💬 Send on WhatsApp", letterSamadhan:"🌐 Complain on the SAMADHAN portal ↗", letterOffice:"🏛️ Your state's Labour Office / helpline",
     letterCopied:"Letter copied. Now paste it in the portal or WhatsApp.",
     letterNote:"🔒 This letter is made only on your phone — nothing is sent to or stored by us. You decide whether to give your name when you file it.",
@@ -303,6 +305,7 @@
     let saved = ''; try { saved = localStorage.getItem('state') || ''; } catch (e) {}
     if (saved && STATES.some(s => s.id === saved)) setState(saved);
     fillStates();
+    fillDistricts(); fillDistricts('helpState', 'helpDistrictList');
   }
   function setState(id) {
     const s = STATES.find(x => x.id === id);
@@ -429,7 +432,7 @@
 
   // ---- report (anonymous)
   function prefillReport() {
-    if (st.stateId) document.getElementById('reportState').value = st.stateId;
+    if (st.stateId) { document.getElementById('reportState').value = st.stateId; fillDistricts(); }
     const m = document.getElementById('reportMessage');
     if (!m.value && problemName()) m.value = t('iAm') + workName() + t('iAmEnd') + problemName() + '.';
   }
@@ -439,10 +442,12 @@
     lastLetter = r;
     const s = STATES.find(x => x.id === r.stateId), today = new Date().toLocaleDateString(LANG === 'en' ? 'en-IN' : 'hi-IN');
     const L1 = LANG === 'en'
-      ? [`To,\nThe Labour Officer / Labour Department, ${stateName(s)}`, `Subject: Complaint about my workplace`,
+      ? [`To,\nThe Labour Officer / Labour Department,\n${r.district ? `District ${r.district}, ` : ''}${stateName(s)}`,
+         r.company ? `Subject: Complaint against ${r.company}` : `Subject: Complaint about my workplace`,
          r.company ? `Company / contractor: ${r.company}` : '', r.message,
          'Please look into this and take action under the Labour Codes.', `Date: ${today}`]
-      : [`सेवा में,\nश्रम अधिकारी / श्रम विभाग, ${stateName(s)}`, `विषय: काम की जगह से जुड़ी शिकायत`,
+      : [`सेवा में,\nश्रम अधिकारी / श्रम विभाग,\n${r.district ? `ज़िला ${r.district}, ` : ''}${stateName(s)}`,
+         r.company ? `विषय: ${r.company} के ख़िलाफ़ शिकायत` : `विषय: काम की जगह से जुड़ी शिकायत`,
          r.company ? `कंपनी / ठेकेदार: ${r.company}` : '', r.message,
          'कृपया इसकी जाँच करके लेबर कोड के तहत कार्रवाई करें।', `तारीख़: ${today}`];
     const text = L1.filter(Boolean).join('\n\n');
@@ -460,11 +465,33 @@
     catch (e) { const r = document.createRange(); r.selectNodeContents(document.getElementById('letterText'));
                 const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); }
   }
+  // district suggestions for the chosen state (public/districts.json; any other name can be typed)
+  let DISTRICTS = null;
+  async function fillDistricts(selId = 'reportState', listId = 'districtList') {
+    const id = document.getElementById(selId).value;
+    try { DISTRICTS = DISTRICTS || await getJSON(STATIC ? 'districts.json' : '/districts.json'); } catch (e) { DISTRICTS = {}; }
+    document.getElementById(listId).innerHTML = (DISTRICTS[id] || []).map(d => `<option value="${esc(d)}"></option>`).join('');
+  }
+  document.getElementById('reportState').addEventListener('change', () => { document.getElementById('reportDistrict').value = ''; fillDistricts(); });
+  // help: district labour office on the map (Google Maps search shows the current address + phone; we store no numbers)
+  function showHelpDistrict() {
+    const d = document.getElementById('helpDistrict').value.trim().slice(0, 60), box = document.getElementById('helpDistrictBox');
+    const s = STATES.find(x => x.id === document.getElementById('helpState').value);
+    if (!d || !s) { box.innerHTML = ''; return; }
+    const q = encodeURIComponent(`Labour Office ${d} ${s.name}`);
+    box.innerHTML = `<a class="big" href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener">${t('mapOffice')} — ${esc(d)} ↗</a>
+      <div class="updated">${t('mapNote')}</div>`;
+  }
+  document.getElementById('helpDistrict').addEventListener('input', showHelpDistrict);
+  document.getElementById('helpState').addEventListener('change', () => {
+    document.getElementById('helpDistrict').value = ''; showHelpDistrict(); fillDistricts('helpState', 'helpDistrictList');
+  });
   document.getElementById('reportBtn').addEventListener('click', async () => {
     const stateId = document.getElementById('reportState').value, message = document.getElementById('reportMessage').value.trim();
     const company = document.getElementById('reportCompany').value.trim(), out = document.getElementById('reportStatus');
     if (!stateId || !message) { out.textContent = t('reportMissing'); return; }
-    if (STATIC) { letterReport({ stateId, company, message }); return; }
+    const district = document.getElementById('reportDistrict').value.trim().slice(0, 60);
+    if (STATIC) { letterReport({ stateId, district, company, message }); return; }
     const d = await (await fetch('/api/report', { method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ stateId, company, message, lang: LANG }) })).json();
     out.textContent = (d.error ? '⚠️ ' : '✅ ') + (d.note || d.error);

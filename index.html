@@ -391,6 +391,8 @@
     <h1 data-t="reportTitle"></h1>
     <p class="sub" data-t="reportSub"></p>
     <select id="reportState"></select>
+    <input type="text" id="reportDistrict" list="districtList" data-tp="districtPh" autocomplete="off" style="margin-top:.6rem" />
+    <datalist id="districtList"></datalist>
     <input type="text" id="reportCompany" data-tp="companyPh" style="margin-top:.6rem" />
     <textarea id="reportMessage" data-tp="reportPh" style="margin-top:.6rem"></textarea>
     <button class="big light" id="micReport" type="button" data-t="speak"></button>
@@ -419,6 +421,9 @@
     <h1 data-t="helpTitle"></h1>
     <p class="sub" data-t="helpSub"></p>
     <select id="helpState"></select>
+    <input type="text" id="helpDistrict" list="helpDistrictList" data-tp="districtPh" autocomplete="off" style="margin-top:.6rem" />
+    <datalist id="helpDistrictList"></datalist>
+    <div id="helpDistrictBox"></div>
     <div id="helpBox"></div>
     <button class="big" type="button" data-act="draftClaim" data-dt="makeBtn"></button>
     <div class="card">
